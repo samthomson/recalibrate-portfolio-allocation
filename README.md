@@ -2,7 +2,7 @@
 
 A portfolio is defined as a spread. Eg. 50% BTC, 30% ETH, 20% LTC.
 
-This spread is easy to use when first constructing the porffolio, but as the market changes, so does the spread of the portfolio. Eg. BTC may go up 4% while ETH goes up 8%. So to keep the portfolio at a fixed spread, it must be recalibrated.
+This spread is easy to use when first constructing the porfolio, but as the market changes, so does the spread of the portfolio. Eg. BTC may go up 4% while ETH goes up 8%. So to keep the portfolio at a fixed spread, it must be recalibrated.
 
 For example, consider a portfolio with 50% BTC and 50% ETH.
 If BTC is $10,000 and ETH is $1,000 then a $10,000 fund should buy 0.5 BTC and 5 ETH.
