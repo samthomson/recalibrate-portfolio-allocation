@@ -2,10 +2,16 @@
   "name": "recalibrate-spread",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
   "repository": "git@github.com:samthomson/recalibrate-spread.git",
   "author": "Sam Thomson <samt@samt.st>",
   "license": "MIT",
   "devDependencies": {
     "typescript": "^2.7.1"
+  },
+  "dependencies": {
+    "tslint": "^5.9.1"
   }
 }
