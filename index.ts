@@ -63,7 +63,7 @@ const main = () => {
             console.log(`done, got values: ${aValueResults}, with a total market capitalisation of $${runningTotal}`)
         }
     ).then(() => {
-        // todo: it then calculates the allocation of the portfolio based on current fiat values
+        // it then calculates the allocation of the portfolio based on current fiat values
 
         console.log(`portfolio total value: ${runningTotal}\n`)
 
@@ -74,7 +74,7 @@ const main = () => {
 
         return
     }).then(() => {
-        // todo: it then looks at the intended spread and calculates the offset for each stock in fiat (usd)
+        // it then looks at the intended spread and calculates the offset for each stock in fiat (usd)
         Object.keys(oPortfolio).forEach(key => {
             let currentAllocation = oPortfolio[key].currentAllocation
             let intendedAllocation = oPortfolio[key].percentage
