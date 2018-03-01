@@ -2,7 +2,7 @@
 var expect = require('chai').expect;
 var index = require('../dist/index.js');
 
-describe('getCryptoUSDValue function test', async () => {
+describe('test', async () => {
     it('should run this test', () => {
         expect(true)
     });
