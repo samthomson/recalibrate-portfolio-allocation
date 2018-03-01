@@ -19,7 +19,7 @@ const tradingFeePercentage: number = 0.25
 const calculatePortfoliosCurrentAllocation = (oPortfolio: Portfolio) => {
     Object.keys(oPortfolio).forEach(key => {
         oPortfolio[key].currentAllocation = (oPortfolio[key].netValue || 0) / runningTotal * 100
-    });
+    })
 }
 
 const consoleLogSummaries = (oPortfolio: Portfolio) => {
@@ -36,7 +36,7 @@ const consoleLogSummaries = (oPortfolio: Portfolio) => {
         current fiat (USD) offset: $${oPortfolio[key].currentFiatOffset}
         \n
         `)
-    });
+    })
 }
 
 const calculatePortfolioOffsets = (oPortfolio: Portfolio) => {
