@@ -1,4 +1,4 @@
-export type Portfolio = { 
+export interface Portfolio { 
     [key:string]:{
         currency: string,
         holding: number,
