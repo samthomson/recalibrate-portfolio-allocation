@@ -5,7 +5,9 @@
       "declaration": true,
       "outDir": "./dist",
       "strict": true,
-      "lib": [ "es2015" ],
-      "watch": true
-    }
+      "lib": [ "es2015" ]
+    },
+    "files": [
+        "src/index.ts"
+    ]
   }
