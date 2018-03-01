@@ -5,8 +5,9 @@
     ],
     "rules": {
         "interface-name": [ true , "never-prefix" ],
+        "no-console": false,
         "no-implicit-dependencies": [ true, "dev" ],
         "ordered-imports": true,
-        "semicolon": false
+        "semicolon": [ true, "never" ]
     }
   }

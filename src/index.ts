@@ -41,8 +41,8 @@ const consoleLogSummaries = (oPortfolio: Portfolio) => {
 
 const calculatePortfolioOffsets = (oPortfolio: Portfolio) => {
     Object.keys(oPortfolio).forEach(key => {
-        let currentAllocation = oPortfolio[key].currentAllocation
-        let intendedAllocation = oPortfolio[key].percentage
+        const currentAllocation = oPortfolio[key].currentAllocation
+        const intendedAllocation = oPortfolio[key].percentage
         
         oPortfolio[key].currentPercentageOffset = (currentAllocation || 0) - intendedAllocation
         oPortfolio[key].currentFiatOffset = (oPortfolio[key].currentPercentageOffset || 0) * (oPortfolio[key].marketPrice || 0) / 100
@@ -60,14 +60,14 @@ const main = () => {
     }
 
     // give spread - list of stocks each with desired percentage, eg BTC 50%, ETH 30%, LTC 20%
-    let aAllocation: { currency: string, percentage: number }[] = [
+    const aAllocation: { currency: string, percentage: number }[] = [
         { "currency": BITCOIN, "percentage": 50 },
         { "currency": ETHEREUM, "percentage": 30 },
         { "currency": LITECOIN, "percentage": 20 }
     ]
 
     // it gets the current market prices for currencies
-    let aFetchCurrencyValues = Object.keys(oPortfolio).map(sCurrency => {
+    const aFetchCurrencyValues = Object.keys(oPortfolio).map(sCurrency => {
         return getCryptoUSDValue(sCurrency).then(value => {
             // set it's market price, or -1 if the API returned null
             console.log(`set market price`)
@@ -106,7 +106,7 @@ const main = () => {
         consoleLogSummaries(oPortfolio)
 
         runningRecalibrationOffset *= -1
-        let recalibrationFees = runningRecalibrationOffset * (tradingFeePercentage / 100)
+        const recalibrationFees = runningRecalibrationOffset * (tradingFeePercentage / 100)
 
         console.log(`\n\nRecalibration cost:\n$${runningRecalibrationOffset}\n+$${recalibrationFees} (presuming a trading fee of ${tradingFeePercentage}%)`)
 
