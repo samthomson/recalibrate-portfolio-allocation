@@ -1,10 +1,46 @@
 
 import { expect } from 'chai'
 
-import { sumPortfolioNetValues, updatePortfolioCurrencyValues } from './../dist/portfolioCalculations'
+import {
+    calculateCurrentPortfolioAllocation, calculatePortfolioOffsets,
+    sumPortfolioNetValues, updatePortfolioCurrencyValues } from './../dist/portfolioCalculations'
 import { Portfolio } from './../src/types'
 
 describe('portfolioCalculations', () => {
+
+    it('calculateCurrentPortfolioAllocation', () => {
+        const oTestPortfolio: Portfolio = {
+            BITCOIN: { "currency": 'BITCOIN', "percentage": 50, "holding": 0.4 },
+            ETHEREUM: { "currency": 'ETHEREUM', "percentage": 50, "holding": 2.3}
+        }
+
+        calculateCurrentPortfolioAllocation(oTestPortfolio, 20736)
+
+        const sKey = 'BITCOIN'
+        expect(oTestPortfolio[sKey].currentAllocation).to.be.a('number')
+    })
+
+    it('consoleLogSummaries', () => {
+        expect(false)
+    })
+
+    it('calculatePortfolioOffsets', () => {
+        const oTestPortfolio: Portfolio = {
+            BITCOIN: { "currency": 'BITCOIN', "percentage": 50, "holding": 0.4, "currentAllocation": 40 },
+            ETHEREUM: { "currency": 'ETHEREUM', "percentage": 50, "holding": 2.3, "currentAllocation": 60 }
+        }
+        
+
+        const recalibrationOffset = calculatePortfolioOffsets(oTestPortfolio)
+
+        const sKey = 'BITCOIN'
+
+        expect(oTestPortfolio[sKey].currentPercentageOffset).to.be.a('number')
+        expect(oTestPortfolio[sKey].currentFiatOffset).to.be.a('number')
+        expect(recalibrationOffset).to.be.a('number')
+        expect(recalibrationOffset).to.equal(0)
+    })
+
     it('updatePortfolioCurrencyValues', async () => {
 
         const oTestPortfolio: Portfolio = {
@@ -29,6 +65,6 @@ describe('portfolioCalculations', () => {
         await updatePortfolioCurrencyValues(oTestPortfolio)
         const sKey = 'BITCOIN'
 
-        expect(sumPortfolioNetValues(oTestPortfolio)).to.equal(6327.6058)
+        expect(sumPortfolioNetValues(oTestPortfolio)).to.be.a('number')
     })
 })

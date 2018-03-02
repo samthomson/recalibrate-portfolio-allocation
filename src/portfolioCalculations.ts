@@ -25,10 +25,11 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
 export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
     let runningRecalibrationOffset: number = 0
     Object.keys(oPortfolio).forEach(key => {
-        const currentAllocation = oPortfolio[key].currentAllocation
+        const currentAllocation: number = oPortfolio[key].currentAllocation || 0
         const intendedAllocation = oPortfolio[key].percentage
         
-        oPortfolio[key].currentPercentageOffset = (currentAllocation || 0) - intendedAllocation
+        oPortfolio[key].currentPercentageOffset = currentAllocation - intendedAllocation
+
         oPortfolio[key].currentFiatOffset = (oPortfolio[key].currentPercentageOffset || 0) * (oPortfolio[key].marketPrice || 0) / 100
         runningRecalibrationOffset += oPortfolio[key].currentFiatOffset || 0
     })
