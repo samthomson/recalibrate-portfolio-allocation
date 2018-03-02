@@ -1,9 +1,10 @@
 
 import { expect } from 'chai'
+import sinon = require('sinon')
 
 import {
     calculateCurrentPortfolioAllocation, calculatePortfolioOffsets,
-    sumPortfolioNetValues, updatePortfolioCurrencyValues } from './../dist/portfolioCalculations'
+    consoleLogSummaries, sumPortfolioNetValues, updatePortfolioCurrencyValues } from './../dist/portfolioCalculations'
 import { Portfolio } from './../src/types'
 
 describe('portfolioCalculations', () => {
@@ -13,7 +14,7 @@ describe('portfolioCalculations', () => {
             BITCOIN: { "currency": 'BITCOIN', "percentage": 50, "holding": 0.4 },
             ETHEREUM: { "currency": 'ETHEREUM', "percentage": 50, "holding": 2.3}
         }
-
+        sinon.stub(console, 'log')
         calculateCurrentPortfolioAllocation(oTestPortfolio, 20736)
 
         const sKey = 'BITCOIN'
@@ -21,7 +22,15 @@ describe('portfolioCalculations', () => {
     })
 
     it('consoleLogSummaries', () => {
-        expect(false)
+
+        const oTestPortfolio: Portfolio = {
+            BITCOIN: { "currency": 'BITCOIN', "percentage": 50, "holding": 0.4, "netValue": 4359.4532 }
+        }
+
+        
+        consoleLogSummaries(oTestPortfolio)
+        expect(console.log.callCount).to.equal(9)
+        console.log.restore()
     })
 
     it('calculatePortfolioOffsets', () => {
