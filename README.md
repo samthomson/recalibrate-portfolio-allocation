@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/samthomson/recalibrate-portfolio-allocation.svg?branch=master)](https://travis-ci.org/samthomson/recalibrate-portfolio-allocation)
 
+[![Coverage Status](https://coveralls.io/repos/github/samthomson/recalibrate-portfolio-allocation/badge.svg?branch=master)](https://coveralls.io/github/samthomson/recalibrate-portfolio-allocation?branch=master)
+
 A portfolio is defined as its allocation of parts. Eg. 50% BTC, 30% ETH, 20% LTC.
 
 This allocation is easy to use when first constructing the porfolio, but as the market changes, so does the allocation of the portfolio. Eg. BTC may go up 4% while ETH goes up 8%. So to keep the portfolio at a fixed allocation, it must be recalibrated.
