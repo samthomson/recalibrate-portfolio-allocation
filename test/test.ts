@@ -35,14 +35,21 @@ describe('portfolioCalculations', () => {
 
     it('calculatePortfolioOffsets', () => {
         const oTestPortfolio: Portfolio = {
-            BITCOIN: { "currency": 'BITCOIN', "percentage": 50, "holding": 0.4, "currentAllocation": 40 },
-            ETHEREUM: { "currency": 'ETHEREUM', "percentage": 50, "holding": 2.3, "currentAllocation": 60 }
+            BITCOIN: { "currency": 'BITCOIN', "percentage": 50, "holding": 0.4, "currentAllocation": 40, "marketPrice": 12000 },
+            ETHEREUM: { "currency": 'ETHEREUM', "percentage": 50, "holding": 2.3 }
         }
         
 
         const recalibrationOffset = calculatePortfolioOffsets(oTestPortfolio)
 
         const sKey = 'BITCOIN'
+
+        expect(oTestPortfolio[sKey].currentPercentageOffset).to.be.a('number')
+        expect(oTestPortfolio[sKey].currentFiatOffset).to.be.a('number')
+        expect(recalibrationOffset).to.be.a('number')
+        expect(recalibrationOffset).to.equal(0)
+
+        const sEmptyKey = 'ETHEREUM'
 
         expect(oTestPortfolio[sKey].currentPercentageOffset).to.be.a('number')
         expect(oTestPortfolio[sKey].currentFiatOffset).to.be.a('number')
