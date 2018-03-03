@@ -1,9 +1,8 @@
 import { expect } from 'chai'
 
-
 import {
     calculateCurrentPortfolioAllocation, calculatePortfolioOffsets,
-    consoleLogSummaries, sumPortfolioNetValues, updatePortfolioCurrencyValues } from './../dist/portfolioCalculations'
+    consoleLogSummaries, sumPortfolioNetValues, updatePortfolioCurrencyValues, updatePortfolioValues } from './../dist/portfolioCalculations'
 import { Portfolio } from './../src/types'
 
 describe('portfolioCalculations', () => {
@@ -53,6 +52,15 @@ describe('portfolioCalculations', () => {
         expect(recalibrationOffset).to.be.a('number')
     })
 
+    it('updatePortfolioValues', () => {
+        const oTestPortfolio: Portfolio = {
+            BITCOIN: { "currency": 'BITCOIN', "percentage": 50, "holding": 0.4 },
+            ETHEREUM: { "currency": 'ETHEREUM', "percentage": 50, "holding": 2.3 }
+        }
+        updatePortfolioValues(oTestPortfolio, 'BITCOIN', 100)
+        updatePortfolioValues(oTestPortfolio, 'BITCOIN', null)
+    })
+
     it('updatePortfolioCurrencyValues', async () => {
 
         const oTestPortfolio: Portfolio = {
@@ -62,6 +70,17 @@ describe('portfolioCalculations', () => {
 
         await updatePortfolioCurrencyValues(oTestPortfolio)
         const sKey = 'BITCOIN'
+
+        expect(oTestPortfolio[sKey].marketPrice).to.be.a('number')
+        expect(oTestPortfolio[sKey].netValue).to.be.a('number')
+
+        const oNullTestPortfolio: Portfolio = {
+            DOGECOIN: { "currency": 'DOGECOIN', "percentage": 50, "holding": 0.4 },
+            ETHEREUM: { "currency": 'ETHEREUM', "percentage": 50, "holding": 2.3 }
+        }
+
+        await updatePortfolioCurrencyValues(oTestPortfolio)
+        const sNullKey = 'DOGECOIN'
 
         expect(oTestPortfolio[sKey].marketPrice).to.be.a('number')
         expect(oTestPortfolio[sKey].netValue).to.be.a('number')
@@ -75,8 +94,19 @@ describe('portfolioCalculations', () => {
         }
 
         await updatePortfolioCurrencyValues(oTestPortfolio)
-        const sKey = 'BITCOIN'
 
         expect(sumPortfolioNetValues(oTestPortfolio)).to.be.a('number')
+
+
+        const oEmptyPortfolio: Portfolio = {
+            BITCOIN: { "currency": 'BITCOIN', "percentage": 50, "holding": 0, "netValue": 0 },
+            ETHEREUM: { "currency": 'ETHEREUM', "percentage": 50, "holding": 0, "netValue": 0 }
+        }
+
+        await updatePortfolioCurrencyValues(oEmptyPortfolio)
+
+        const portfolioSumNetValue = sumPortfolioNetValues(oEmptyPortfolio)
+        expect(portfolioSumNetValue).to.be.a('number')
+        expect(portfolioSumNetValue).to.equal(0)
     })
 })

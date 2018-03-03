@@ -26,22 +26,33 @@ export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
     let runningRecalibrationOffset: number = 0
     Object.keys(oPortfolio).forEach(key => {
         const currentAllocation: number = oPortfolio[key].currentAllocation || 0
-        const intendedAllocation = oPortfolio[key].percentage
-        
-        oPortfolio[key].currentPercentageOffset = currentAllocation - intendedAllocation
+        const intendedAllocation: number = oPortfolio[key].percentage
+        const marketPrice: number = oPortfolio[key].marketPrice || 0
 
-        oPortfolio[key].currentFiatOffset = (oPortfolio[key].currentPercentageOffset || 0) * (oPortfolio[key].marketPrice || 0) / 100
-        runningRecalibrationOffset += oPortfolio[key].currentFiatOffset || 0
+        const currentPercentageOffset: number = currentAllocation - intendedAllocation
+        const currentFiatOffset: number = (currentPercentageOffset * marketPrice) / 100
+
+        runningRecalibrationOffset += currentFiatOffset
+        
+        oPortfolio[key].currentPercentageOffset = currentPercentageOffset
+        oPortfolio[key].currentFiatOffset = currentFiatOffset
     })
     return runningRecalibrationOffset
+}
+
+export const updatePortfolioValues = (oPortfolio: Portfolio, sCurrency: string, value: number | null) => {
+    const marketPrice: number = (value !== null) ? value : -1
+    const netValue: number = value !== null ? (value * oPortfolio[sCurrency].holding) : -1
+
+    oPortfolio[sCurrency].marketPrice = marketPrice
+    oPortfolio[sCurrency].netValue = value !== null ? (value * oPortfolio[sCurrency].holding) : -1
 }
 
 export const updatePortfolioCurrencyValues = (oPortfolio: Portfolio): Promise<void[]> => {
     const aFetchCurrencyValues = Object.keys(oPortfolio).map(sCurrency => {
         return getCryptoUSDValue(sCurrency).then(value => {
             // set it's market price, or -1 if the API returned null
-            oPortfolio[sCurrency].marketPrice = value !== null ? value : -1
-            oPortfolio[sCurrency].netValue = value !== null ? ((value || 0) * oPortfolio[sCurrency].holding) : -1
+            updatePortfolioValues(oPortfolio, sCurrency, value)
             return
         })
     })
