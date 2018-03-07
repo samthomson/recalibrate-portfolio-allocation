@@ -7,7 +7,8 @@
     "fixlint": "tslint --fix src/**.*",
     "watch": "tsc --watch",
     "start": "node dist/index.js",
-    "test": "nyc mocha -r ts-node/register test/*.ts"
+    "test": "nyc mocha -r ts-node/register test/*.ts",
+    "coveralls": "nyc report --reporter=text-lcov"
   },
   "repository": "git@github.com:samthomson/recalibrate-portfolio-allocation.git",
   "author": "Sam Thomson <samt@samt.st>",
@@ -25,6 +26,7 @@
     "@types/chai": "^4.1.2",
     "@types/mocha": "^2.2.48",
     "@types/node": "^9.4.6",
+    "coveralls": "^3.0.0",
     "get-crypto-fiat-values": "1.0.1",
     "tslint": "^5.9.1"
   }
