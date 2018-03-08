@@ -8,7 +8,7 @@
     "watch": "tsc --watch",
     "start": "node dist/index.js",
     "test": "nyc mocha -r ts-node/register test/*.ts",
-    "coveralls": "nyc report --reporter=text-lcov"
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": "git@github.com:samthomson/recalibrate-portfolio-allocation.git",
   "author": "Sam Thomson <samt@samt.st>",
