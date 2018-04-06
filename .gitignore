@@ -3,3 +3,4 @@ dist
 
 # nyc test coverage
 .nyc_output
+yarn-error.log
