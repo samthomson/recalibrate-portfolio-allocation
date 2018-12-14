@@ -6,7 +6,7 @@
     "build": "tsc",
     "fixlint": "tslint --fix src/**.*",
     "watch": "tsc --watch",
-    "start": "node dist/index.js",
+    "start": "node dist/dev.js",
     "test": "nyc mocha -r ts-node/register test/*.ts",
     "mocha": "mocha -r ts-node/register test/*.ts",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
