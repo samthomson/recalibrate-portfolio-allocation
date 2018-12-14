@@ -1,5 +1,5 @@
 import { getCryptoUSDValue } from 'get-crypto-fiat-values'
-
+import dedent from 'ts-dedent';
 import { Portfolio } from './types'
 
 export const calculateCurrentPortfolioAllocation = (oPortfolio: Portfolio, runningTotal: number) => {
@@ -10,15 +10,19 @@ export const calculateCurrentPortfolioAllocation = (oPortfolio: Portfolio, runni
 
 export const consoleLogSummaries = (oPortfolio: Portfolio) => {
     Object.keys(oPortfolio).forEach(key => {
-        console.log(`\n${key}`)
-        console.log(`currency: ${oPortfolio[key].currency}`)
-        console.log(`percentage: ${oPortfolio[key].percentage}`)
-        console.log(`holding: ${oPortfolio[key].holding}`)
-        console.log(`market-price: ${oPortfolio[key].marketPrice}`)
-        console.log(`net value: ${oPortfolio[key].netValue}`)
-        console.log(`current allocation: ${oPortfolio[key].currentAllocation}%`)
-        console.log(`current percentage offset: ${oPortfolio[key].currentPercentageOffset}%`)
-        console.log(`current fiat (USD) offset: $${oPortfolio[key].currentFiatOffset}\n`)
+        let sMessage = `
+        ${key}:
+        currency: ${oPortfolio[key].currency}
+        percentage: ${oPortfolio[key].percentage}
+        holding: ${oPortfolio[key].holding}
+        market-price: ${oPortfolio[key].marketPrice}
+        net value: ${oPortfolio[key].netValue}
+        current allocation: ${oPortfolio[key].currentAllocation}%
+        current percentage offset: ${oPortfolio[key].currentPercentageOffset}%
+        current fiat (USD) offset: $${oPortfolio[key].currentFiatOffset}
+        `
+        
+        console.log(dedent(sMessage))
     })
 }
 
