@@ -4,6 +4,7 @@ import {
     calculateCurrentPortfolioAllocation,
     calculatePortfolioOffsets,
     consoleLogSummaries,
+    determineTrades,
     sumPortfolioNetValues,
     updatePortfolioCurrencyValues
 } from './portfolioCalculations'
@@ -27,26 +28,12 @@ const oPortfolio: Portfolio = {
 
 
 const calculateRequiredTradesToRebalance = async (portfolio: Portfolio) => {
-    /*
-    */
-    
-    // it gets the current market prices for currencies
+    // it gets the current market prices for currencies in the portfolio
     await updatePortfolioCurrencyValues(oPortfolio)
     
-    // Object.keys(oPortfolio).map(sCurrency => {
-        
-    //     // set it's market price, or -1 if the API returned null
-    //     const value = oPortfolio[sCurrency].marketPrice
-        
-    //     oPortfolio[sCurrency].netValue = value !== null ? ((value || 0) * oPortfolio[sCurrency].holding) : -1
-
-    //     runningTotal += oPortfolio[sCurrency].netValue || 0
-    // })
     runningTotal = sumPortfolioNetValues(oPortfolio)
     
-    // it then calculates the allocation of the portfolio based on current fiat values
-
-    console.log(`portfolio total value: ${runningTotal}\n`)
+    console.log(`portfolio total value: $${runningTotal}\n`)
 
     // determine portfolios current allocation
     calculateCurrentPortfolioAllocation(oPortfolio, runningTotal)
@@ -63,7 +50,10 @@ const calculateRequiredTradesToRebalance = async (portfolio: Portfolio) => {
     runningRecalibrationOffset *= -1
     const recalibrationFees = runningRecalibrationOffset * (tradingFeePercentage / 100)
 
-    console.log(`\n\nRecalibration cost:\n$${runningRecalibrationOffset}\n+$${recalibrationFees} (presuming a trading fee of ${tradingFeePercentage}%)`)
+    console.log(`\n\nRecalibration cost:\n$${runningRecalibrationOffset.toFixed(2)} worth of trades\n+ costing $${recalibrationFees.toFixed(2)} (presuming a trading fee of ${tradingFeePercentage.toFixed(2)}%)`)
+
+
+    determineTrades(oPortfolio)
 
 }
 

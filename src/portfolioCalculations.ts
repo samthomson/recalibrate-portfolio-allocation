@@ -15,12 +15,14 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
         currency: ${oPortfolio[key].currency}
         percentage: ${oPortfolio[key].percentage}
         holding: ${oPortfolio[key].holding}
-        market-price: ${oPortfolio[key].marketPrice}
-        net value: ${oPortfolio[key].netValue}
-        current allocation: ${oPortfolio[key].currentAllocation}%
-        current percentage offset: ${oPortfolio[key].currentPercentageOffset}%
-        current fiat (USD) offset: $${oPortfolio[key].currentFiatOffset}
+        market-price: $${oPortfolio[key].marketPrice.toFixed(2)}
+        net value: $${oPortfolio[key].netValue.toFixed(2)}
+        current allocation: ${oPortfolio[key].currentAllocation.toFixed(2)} % of portfolio
+        current percentage offset: ${oPortfolio[key].currentPercentageOffset.toFixed(2)}%
+        current fiat (USD) offset: $${oPortfolio[key].currentFiatOffset.toFixed(2)}
         
+
+
         `
         
         console.log(dedent(sMessage))
@@ -28,6 +30,11 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
 }
 
 export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
+    /*
+    compares value of assets in portfolio against what they should be
+    based on the intended allocation. Determining how high or low each
+    asset is, relative to it what it should be for the current market.
+    */
     let runningRecalibrationOffset: number = 0
     Object.keys(oPortfolio).forEach(key => {
         const currentAllocation: number = oPortfolio[key].currentAllocation || 0
@@ -71,4 +78,28 @@ export const sumPortfolioNetValues = (oPortfolio: Portfolio): number => {
         runningTotal += oPortfolio[key].netValue || 0
     })
     return runningTotal
+}
+
+export const determineTrades = (oPortfolio: Portfolio): any => {
+    /*
+    work out what we need to sell, and what we need to buy in 
+    order to rebalance to the portfolios allocation. */
+    console.log('\ndetermine trades\n')
+    Object.keys(oPortfolio).forEach(key => {
+
+        console.log(oPortfolio[key].currency)
+
+        if (oPortfolio[key].currentPercentageOffset === 0) {
+            console.log('currency is *already* correctly allocated')
+        }
+
+        if (oPortfolio[key].currentPercentageOffset < 0) {
+            console.log('currency is negatively offset; BUY')
+        }
+
+        if (oPortfolio[key].currentPercentageOffset > 0) {
+            console.log('currency is positively offset; SELL')
+        }
+
+    })
 }
