@@ -19,3 +19,10 @@ Possible solution:
 
 Use a proxy coin (like binance coin). Determine the fiat value of each coin in the allocation, then determine in fiat (USD?) how many dollars above & below each coin in the fund is. For each coin, set the difference (positive or negative). For all positive coins buy proxy coin (binance) of the positive amount. Then buy the amount of each negative, with Binance. This way the fund would be fueled with Binance.
 If the markets remained flat, no adjustment is necessary. If they move, ~50% of coins will be up, & ~50% down, but all will need a trade. The cost is 0.25% of what is transferred. So 0.25% of the collective change, is the cost of rebalancing.
+
+
+### todo
+
+- read a portfolio from local file
+- create / output trades
+- publish as a package
