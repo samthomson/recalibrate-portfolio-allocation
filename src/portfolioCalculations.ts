@@ -20,6 +20,7 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
         current allocation: ${oPortfolio[key].currentAllocation}%
         current percentage offset: ${oPortfolio[key].currentPercentageOffset}%
         current fiat (USD) offset: $${oPortfolio[key].currentFiatOffset}
+        
         `
         
         console.log(dedent(sMessage))
