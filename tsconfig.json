@@ -8,6 +8,6 @@
       "lib": [ "es2015" ]
     },
     "files": [
-        "src/index.ts"
+        "src/dev.ts"
     ]
   }

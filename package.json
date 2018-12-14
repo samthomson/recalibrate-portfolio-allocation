@@ -1,7 +1,7 @@
 {
   "name": "recalibrate-spread",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "dist/dev.js",
   "scripts": {
     "build": "tsc",
     "fixlint": "tslint --fix src/**.*",
