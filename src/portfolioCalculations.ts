@@ -1,6 +1,6 @@
-import { getCryptoUSDValue } from 'get-crypto-fiat-values'
+import { getMultipleCryptoUSDValue } from 'get-crypto-fiat-values'
 import dedent from 'ts-dedent';
-import { Portfolio } from './types'
+import { Portfolio, PortfolioItem } from './types'
 
 export const calculateCurrentPortfolioAllocation = (oPortfolio: Portfolio, runningTotal: number) => {
     Object.keys(oPortfolio).forEach(key => {
@@ -10,20 +10,45 @@ export const calculateCurrentPortfolioAllocation = (oPortfolio: Portfolio, runni
 
 export const consoleLogSummaries = (oPortfolio: Portfolio) => {
     Object.keys(oPortfolio).forEach(key => {
-        let sMessage = `
-        ${key}:
-        currency: ${oPortfolio[key].currency}
-        percentage: ${oPortfolio[key].percentage}
-        holding: ${oPortfolio[key].holding}
-        market-price: $${oPortfolio[key].marketPrice.toFixed(2)}
-        net value: $${oPortfolio[key].netValue.toFixed(2)}
-        current allocation: ${oPortfolio[key].currentAllocation.toFixed(2)} % of portfolio
-        current percentage offset: ${oPortfolio[key].currentPercentageOffset.toFixed(2)}%
-        current fiat (USD) offset: $${oPortfolio[key].currentFiatOffset.toFixed(2)}
-        
+
+        const {
+            currency,
+            percentage,
+            holding,
+            marketPrice,
+            netValue,
+            currentAllocation,
+            currentPercentageOffset,
+            currentFiatOffset
+        } = oPortfolio[key]
+
+        let sMessage: string;
+
+        if (
+            marketPrice &&
+            netValue &&
+            currentAllocation &&
+            currentPercentageOffset &&
+            currentFiatOffset
+        ) {
+
+            sMessage = `
+            ${key}:
+            currency: ${currency}
+            percentage: ${percentage}
+            holding: ${holding}
+            market-price: $${marketPrice.toFixed(2)}
+            net value: $${netValue.toFixed(2)}
+            current allocation: ${currentAllocation.toFixed(2)} % of portfolio
+            current percentage offset: ${currentPercentageOffset.toFixed(2)}%
+            current fiat (USD) offset: $${currentFiatOffset.toFixed(2)}
+            
 
 
-        `
+            `
+        } else {
+            sMessage = `\n${currency} is missing values.. no summary available\n`
+        }
         
         console.log(dedent(sMessage))
     })
@@ -53,20 +78,33 @@ export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
 }
 
 export const updatePortfolioValues = (oPortfolio: Portfolio, sCurrency: string, value: number | null) => {
+
     const marketPrice: number = (value !== null) ? value : -1
     const netValue: number = value !== null ? (value * oPortfolio[sCurrency].holding) : -1
 
     oPortfolio[sCurrency].marketPrice = marketPrice
     oPortfolio[sCurrency].netValue = value !== null ? (value * oPortfolio[sCurrency].holding) : -1
+    
 }
 
-export const updatePortfolioCurrencyValues = (oPortfolio: Portfolio): Promise<void[]> => {
+export const updatePortfolioCurrencyValues = async (oPortfolio: Portfolio): Promise<void[]> => {
+
+    // get an object of all currency values we're interested in
+    const saCurrencies:string[] = Object.keys(oPortfolio).map(
+        sCurrencyKey => oPortfolio[sCurrencyKey].currency
+    )
+
+    const oPrices: any = await getMultipleCryptoUSDValue(saCurrencies)
+
+    console.log(oPrices)
+
     const aFetchCurrencyValues = Object.keys(oPortfolio).map(sCurrency => {
-        return getCryptoUSDValue(sCurrency).then(value => {
-            // set it's market price, or -1 if the API returned null
-            updatePortfolioValues(oPortfolio, sCurrency, value)
-            return
-        })
+        // set it's market price, or -1 if the API returned null
+        return updatePortfolioValues(
+            oPortfolio,
+            sCurrency,
+            oPrices[oPortfolio[sCurrency].currency].usdValue
+        )
     })
     
     return Promise.all(aFetchCurrencyValues)
@@ -86,19 +124,25 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
     order to rebalance to the portfolios allocation. */
     console.log('\ndetermine trades\n')
     Object.keys(oPortfolio).forEach(key => {
+        
+        const { currency, currentPercentageOffset } = oPortfolio[key]
 
-        console.log(oPortfolio[key].currency)
+        console.log(currency)
 
-        if (oPortfolio[key].currentPercentageOffset === 0) {
-            console.log('currency is *already* correctly allocated')
-        }
+        if (currentPercentageOffset) {
+            if (currentPercentageOffset === 0) {
+                console.log('currency is *already* correctly allocated')
+            }
 
-        if (oPortfolio[key].currentPercentageOffset < 0) {
-            console.log('currency is negatively offset; BUY')
-        }
+            if (currentPercentageOffset < 0) {
+                console.log('currency is negatively offset; BUY')
+            }
 
-        if (oPortfolio[key].currentPercentageOffset > 0) {
-            console.log('currency is positively offset; SELL')
+            if (currentPercentageOffset > 0) {
+                console.log('currency is positively offset; SELL')
+            }
+        }else{
+            console.log(`${currency} is missing data..`)
         }
 
     })

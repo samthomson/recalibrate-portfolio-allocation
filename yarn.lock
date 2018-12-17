@@ -12,12 +12,6 @@
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.2.tgz#f1af664769cfb50af805431c407425ed619daa21"
 
-"@types/es6-promise@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@types/es6-promise/-/es6-promise-3.3.0.tgz#61b55e554fd807b563f158a7986ee53d3a5a5a9d"
-  dependencies:
-    es6-promise "*"
-
 "@types/mocha@^2.2.48":
   version "2.2.48"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.48.tgz#3523b126a0b049482e1c3c11877460f76622ffab"
@@ -477,10 +471,6 @@ error-ex@^1.2.0:
   dependencies:
     is-arrayish "^0.2.1"
 
-es6-promise@*:
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.4.tgz#dc4221c2b16518760bd8c39a52d8f356fc00ed29"
-
 escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
@@ -621,12 +611,13 @@ get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
 
-get-crypto-fiat-values@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/get-crypto-fiat-values/-/get-crypto-fiat-values-1.0.1.tgz#a7c349415db6e87000090765849e9c1bc169d3af"
+get-crypto-fiat-values@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/get-crypto-fiat-values/-/get-crypto-fiat-values-1.1.0.tgz#71785aa95c9538d6053ffc26461f6cc32c5f074f"
+  integrity sha512-FUtZgdKDA5u/fVqwCti+5sxOT/ResJaDOpoFUCzV4i8MqAVc0jD9HtTwSPp6dtvXyvCce/o2P00Dyl6FGaoYaw==
   dependencies:
-    "@types/es6-promise" "^3.3.0"
     axios "^0.17.1"
+    coveralls "^3.0.0"
 
 get-func-name@^2.0.0:
   version "2.0.0"

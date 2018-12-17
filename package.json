@@ -28,7 +28,7 @@
     "@types/mocha": "^2.2.48",
     "@types/node": "^9.4.6",
     "coveralls": "^3.0.0",
-    "get-crypto-fiat-values": "1.0.1",
+    "get-crypto-fiat-values": "1.1.0",
     "ts-dedent": "^1.0.0",
     "tslint": "^5.9.1"
   }

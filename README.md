@@ -23,6 +23,6 @@ If the markets remained flat, no adjustment is necessary. If they move, ~50% of 
 
 ### todo
 
-- read a portfolio from local file
 - create / output trades
+- add docs/usage to readme
 - publish as a package
