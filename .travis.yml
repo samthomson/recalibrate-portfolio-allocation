@@ -6,4 +6,4 @@ before_script:
  - yarn run build
 script:
  - yarn test
-after_success: yarn coveralls
+after_success: yarn coverage
