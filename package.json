@@ -1,35 +1,37 @@
 {
-  "name": "recalibrate-spread",
-  "version": "1.0.0",
-  "main": "dist/dev.js",
-  "scripts": {
-    "build": "tsc",
-    "fixlint": "tslint --fix src/**.*",
-    "watch": "tsc --watch",
-    "start": "node dist/dev.js",
-    "test": "mocha -r ts-node/register test/**/*.spec.ts",
-    "coverage": "istanbul cover -e .ts _mocha -- --compilers ts:ts-node/register"
-  },
-  "repository": "git@github.com:samthomson/recalibrate-portfolio-allocation.git",
-  "author": "Sam Thomson <samt@samt.st>",
-  "license": "MIT",
-  "devDependencies": {
-    "chai": "^4.1.2",
-    "istanbul": "1.1.0-alpha.1",
-    "mocha": "^5.0.1",
-    "mockery": "^2.1.0",
-    "sinon": "^7.2.2",
-    "ts-node": "^5.0.0",
-    "tslint-config-prettier": "^1.9.0",
-    "typescript": "^2.7.2"
-  },
-  "dependencies": {
-    "@types/chai": "^4.1.2",
-    "@types/mocha": "^2.2.48",
-    "@types/node": "^9.4.6",
-    "coveralls": "^3.0.0",
-    "get-crypto-fiat-values": "1.1.0",
-    "ts-dedent": "^1.0.0",
-    "tslint": "^5.9.1"
-  }
+    "name": "recalibrate-spread",
+    "version": "1.0.0",
+    "main": "dist/dev.js",
+    "scripts": {
+        "build": "tsc",
+        "fixlint": "tslint --fix src/**.*",
+        "lint": "prettier --config=\".prettierrc\" src/**/*.ts test/**/*.spec.ts",
+        "watch": "tsc --watch",
+        "start": "node dist/dev.js",
+        "test": "mocha -r ts-node/register test/**/*.spec.ts",
+        "coverage": "istanbul cover -e .ts _mocha -- --compilers ts:ts-node/register"
+    },
+    "repository": "git@github.com:samthomson/recalibrate-portfolio-allocation.git",
+    "author": "Sam Thomson <samt@samt.st>",
+    "license": "MIT",
+    "devDependencies": {
+        "chai": "^4.1.2",
+        "istanbul": "1.1.0-alpha.1",
+        "mocha": "^5.0.1",
+        "mockery": "^2.1.0",
+        "prettier": "1.15.3",
+        "sinon": "^7.2.2",
+        "ts-node": "^5.0.0",
+        "tslint-config-prettier": "^1.9.0",
+        "typescript": "^2.7.2"
+    },
+    "dependencies": {
+        "@types/chai": "^4.1.2",
+        "@types/mocha": "^2.2.48",
+        "@types/node": "^9.4.6",
+        "coveralls": "^3.0.0",
+        "get-crypto-fiat-values": "1.1.0",
+        "ts-dedent": "^1.0.0",
+        "tslint": "^5.9.1"
+    }
 }
