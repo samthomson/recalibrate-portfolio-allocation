@@ -23,9 +23,7 @@ If the markets remained flat, no adjustment is necessary. If they move, ~50% of 
 
 ### todo
 
-- offsets seems wrong, applying them doesn't rebalance portfolio
-- recalibration cost is wrong, it should sum all values as positives
-- create / output trades
+- add end to end test, then refactor accordingly
 - handle non-data better. if we didn't receive market data for any currency, we can't proceed. throw an error or similar.
 - add docs/usage to readme
 - publish as a package
