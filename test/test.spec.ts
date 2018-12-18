@@ -239,7 +239,7 @@ describe('portfolioCalculations', () => {
         const oTestPortfolio: Portfolio = {
             BITCOIN: {
                 currency: BITCOIN,
-                intendedAllocation: 50,
+                intendedAllocation: 40,
                 holding: 1,
                 netValue: 3556.64,
                 currentCryptoOffset: -0.9,
@@ -247,9 +247,16 @@ describe('portfolioCalculations', () => {
             ETHEREUM: {
                 currency: ETHEREUM,
                 intendedAllocation: 50,
-                holding: 10,
+                holding: 35,
                 netValue: 95.03,
                 currentCryptoOffset: 11,
+            },
+            LITECOIN: {
+                currency: LITECOIN,
+                intendedAllocation: 15,
+                holding: 20,
+                netValue: 600,
+                currentCryptoOffset: 0,
             },
         }
 
