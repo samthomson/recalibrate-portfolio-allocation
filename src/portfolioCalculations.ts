@@ -181,5 +181,5 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
 }
 
 const displayTradeOrder = (oTradeOrder: TradeOrder) => {
-    console.log(`Buy ${oTradeOrder.amount} of ${oTradeOrder.buy} by selling $${oTradeOrder.sell}\n`)
+    console.log(`Buy ${oTradeOrder.amount} of ${oTradeOrder.buy} by selling ${oTradeOrder.sell}\n`)
 }
