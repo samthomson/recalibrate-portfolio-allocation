@@ -218,33 +218,15 @@ export const calculateRequiredTradesToRebalance = async (
 
     runningTotal = sumPortfolioNetValues(oPortfolio)
 
-    console.log(`portfolio total value: $${runningTotal}\n`)
-
     // determine portfolios current allocation
     calculateCurrentPortfolioAllocation(oPortfolio, runningTotal)
 
     // it then looks at the intended spread and calculates the offset for each stock in fiat (usd)
     runningRecalibrationOffset = calculatePortfolioOffsets(oPortfolio)
 
-    // portfolio allocation
-    consoleLogSummaries(oPortfolio)
-
     runningRecalibrationOffset *= -1
     const recalibrationFees =
         runningRecalibrationOffset * (tradingFeePercentage / 100)
-
-    console.log(
-        dedent(
-            `
-    
-        Recalibration cost:
-        $${runningRecalibrationOffset.toFixed(2)} worth of trades
-        costing $${recalibrationFees.toFixed(
-            2
-        )} (presuming a trading fee of ${tradingFeePercentage.toFixed(2)}%)
-        `
-        )
-    )
 
     // then for each asset/coin-holding it determines the trade buy X proxy coin (for the positive offsets) or sell X proxy coin for currencies (for the negatives)
     return determineTrades(oPortfolio)

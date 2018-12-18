@@ -72,7 +72,7 @@ describe('portfolioCalculations', () => {
         }
 
         consoleLogSummaries(oTestPortfolio)
-        // expect(console.log.callCount).to.equal(9)
+        // expect(console.log.callCount).to.equal(1)
         // console.log.restore()
     })
 
@@ -243,14 +243,14 @@ describe('portfolioCalculations', () => {
                 intendedAllocation: 40,
                 holding: 1,
                 netValue: 3556.64,
-                currentCryptoOffset: -0.9,
+                currentCryptoOffset: 0.9,
             },
             ETHEREUM: {
                 currency: ETHEREUM,
                 intendedAllocation: 50,
                 holding: 35,
                 netValue: 95.03,
-                currentCryptoOffset: 11,
+                currentCryptoOffset: -11,
             },
             LITECOIN: {
                 currency: LITECOIN,
@@ -292,7 +292,6 @@ describe('portfolioCalculations', () => {
         const oaTrades: TradeOrder[] = await calculateRequiredTradesToRebalance(
             oSimplePortfolio
         )
-        console.log(oSimplePortfolio)
 
         expect(oaTrades.length).to.equal(3)
 
