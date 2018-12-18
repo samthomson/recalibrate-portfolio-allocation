@@ -1,6 +1,14 @@
 {
-  "trailingComma": "es5",
-  "tabWidth": 4,
-  "semi": false,
-  "singleQuote": true
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": false,
+    "singleQuote": true,
+    "overrides": [
+        {
+            "files": "*.ts *.spec.ts",
+            "options": {
+                "semi": true
+            }
+        }
+    ]
 }

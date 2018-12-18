@@ -1,13 +1,10 @@
 {
-    "extends": [
-      "tslint:latest",
-      "tslint-config-prettier"
-    ],
+    "extends": ["tslint:latest", "tslint-config-prettier"],
     "rules": {
-        "interface-name": [ true , "never-prefix" ],
+        "interface-name": [true, "never-prefix"],
         "no-console": false,
-        "no-implicit-dependencies": [ true, "dev" ],
+        "no-implicit-dependencies": [true, "dev"],
         "ordered-imports": true,
-        "semicolon": [ true, "never" ]
+        "semicolon": [true, "never"]
     }
-  }
+}

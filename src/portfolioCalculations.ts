@@ -1,16 +1,19 @@
 import { getMultipleCryptoUSDValue } from 'get-crypto-fiat-values'
-import dedent from 'ts-dedent';
+import dedent from 'ts-dedent'
 import { Portfolio, TradeOrder } from './types'
 
-export const calculateCurrentPortfolioAllocation = (oPortfolio: Portfolio, runningTotal: number) => {
+export const calculateCurrentPortfolioAllocation = (
+    oPortfolio: Portfolio,
+    runningTotal: number
+) => {
     Object.keys(oPortfolio).forEach(key => {
-        oPortfolio[key].currentAllocation = (oPortfolio[key].netValue || 0) / runningTotal * 100
+        oPortfolio[key].currentAllocation =
+            ((oPortfolio[key].netValue || 0) / runningTotal) * 100
     })
 }
 
 export const consoleLogSummaries = (oPortfolio: Portfolio) => {
     Object.keys(oPortfolio).forEach(key => {
-
         const {
             currency,
             intendedAllocation,
@@ -20,20 +23,19 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
             currentAllocation,
             currentPercentageOffset,
             currentFiatOffset,
-            currentCryptoOffset
+            currentCryptoOffset,
         } = oPortfolio[key]
 
-        let sMessage: string;
+        let sMessage: string
 
         if (
             marketPrice &&
             netValue &&
             currentAllocation &&
             currentPercentageOffset &&
-            currentFiatOffset && 
+            currentFiatOffset &&
             currentCryptoOffset
         ) {
-
             sMessage = `
             ${key}:
             currency: ${currency}
@@ -44,7 +46,9 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
             current allocation: ${currentAllocation.toFixed(2)} % of portfolio
             current percentage offset: ${currentPercentageOffset.toFixed(2)}%
             current fiat (USD) offset: $${currentFiatOffset.toFixed(2)}
-            current crypto (${currency}) offset: ${currentCryptoOffset.toFixed(6)}
+            current crypto (${currency}) offset: ${currentCryptoOffset.toFixed(
+                6
+            )}
             
 
 
@@ -52,7 +56,7 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
         } else {
             sMessage = `\n${currency} is missing values.. no summary available\n`
         }
-        
+
         console.log(dedent(sMessage))
     })
 }
@@ -65,8 +69,7 @@ export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
     */
     let runningRecalibrationOffset: number = 0
     Object.keys(oPortfolio).forEach(key => {
-
-        let { 
+        let {
             currentAllocation,
             holding,
             intendedAllocation,
@@ -76,33 +79,46 @@ export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
         currentAllocation = currentAllocation || 0
         netValue = netValue || 0
 
-        const currentPercentageOffset: number = (1 - (1 / (currentAllocation / intendedAllocation))) * 100
-        let currentFiatOffset: number = Number(((currentPercentageOffset * netValue) / 100).toFixed(6))
-        let currentCryptoOffset: number = Number(((currentPercentageOffset * holding) / 100).toFixed(6))
+        const currentPercentageOffset: number =
+            (1 - 1 / (currentAllocation / intendedAllocation)) * 100
+        let currentFiatOffset: number = Number(
+            ((currentPercentageOffset * netValue) / 100).toFixed(6)
+        )
+        let currentCryptoOffset: number = Number(
+            ((currentPercentageOffset * holding) / 100).toFixed(6)
+        )
 
         oPortfolio[key].currentPercentageOffset = currentPercentageOffset
         oPortfolio[key].currentFiatOffset = currentFiatOffset
         oPortfolio[key].currentCryptoOffset = currentCryptoOffset
 
-        runningRecalibrationOffset += currentFiatOffset > 0 ? currentFiatOffset : currentFiatOffset *= -1
+        runningRecalibrationOffset +=
+            currentFiatOffset > 0
+                ? currentFiatOffset
+                : (currentFiatOffset *= -1)
     })
     return runningRecalibrationOffset
 }
 
-export const updatePortfolioValues = (oPortfolio: Portfolio, sCurrency: string, value: number | null) => {
-
-    const marketPrice: number = (value !== null) ? value : -1
-    const netValue: number = value !== null ? (value * oPortfolio[sCurrency].holding) : -1
+export const updatePortfolioValues = (
+    oPortfolio: Portfolio,
+    sCurrency: string,
+    value: number | null
+) => {
+    const marketPrice: number = value !== null ? value : -1
+    const netValue: number =
+        value !== null ? value * oPortfolio[sCurrency].holding : -1
 
     oPortfolio[sCurrency].marketPrice = marketPrice
-    oPortfolio[sCurrency].netValue = value !== null ? (value * oPortfolio[sCurrency].holding) : -1
-    
+    oPortfolio[sCurrency].netValue =
+        value !== null ? value * oPortfolio[sCurrency].holding : -1
 }
 
-export const updatePortfolioCurrencyValues = async (oPortfolio: Portfolio): Promise<void[]> => {
-
+export const updatePortfolioCurrencyValues = async (
+    oPortfolio: Portfolio
+): Promise<void[]> => {
     // get an object of all currency values we're interested in
-    const saCurrencies:string[] = Object.keys(oPortfolio).map(
+    const saCurrencies: string[] = Object.keys(oPortfolio).map(
         sCurrencyKey => oPortfolio[sCurrencyKey].currency
     )
 
@@ -116,7 +132,7 @@ export const updatePortfolioCurrencyValues = async (oPortfolio: Portfolio): Prom
             oPrices[oPortfolio[sCurrency].currency].usdValue
         )
     })
-    
+
     return Promise.all(aFetchCurrencyValues)
 }
 
@@ -134,30 +150,28 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
     order to rebalance to the portfolios allocation. */
     console.log('\ndetermine trades\n')
     Object.keys(oPortfolio).forEach(key => {
-        
-        let {
-            currency,
-            currentCryptoOffset
-        } = oPortfolio[key]
+        let { currency, currentCryptoOffset } = oPortfolio[key]
 
         console.log('\n' + currency)
 
         currentCryptoOffset = currentCryptoOffset || 0
-        currentCryptoOffset = currentCryptoOffset > 0 ? currentCryptoOffset : currentCryptoOffset *= -1
+        currentCryptoOffset =
+            currentCryptoOffset > 0
+                ? currentCryptoOffset
+                : (currentCryptoOffset *= -1)
 
-        let oTradeOrder: TradeOrder;
+        let oTradeOrder: TradeOrder
 
         if (currentCryptoOffset) {
             if (currentCryptoOffset === 0) {
                 console.log(`${currency} is *already* correctly allocated`)
-            }else{
-
+            } else {
                 if (currentCryptoOffset < 0) {
                     console.log('currency is negatively offset; BUY')
                     oTradeOrder = {
                         amount: currentCryptoOffset,
                         buy: 'stablecoin',
-                        sell: currency
+                        sell: currency,
                     }
                     displayTradeOrder(oTradeOrder)
                 }
@@ -168,19 +182,21 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
                     oTradeOrder = {
                         amount: currentCryptoOffset,
                         buy: 'stablecoin',
-                        sell: currency
+                        sell: currency,
                     }
                     displayTradeOrder(oTradeOrder)
                 }
-                
             }
-        }else{
+        } else {
             console.log(`${currency} is missing data..`)
         }
-
     })
 }
 
 const displayTradeOrder = (oTradeOrder: TradeOrder) => {
-    console.log(`Buy ${oTradeOrder.amount} (${oTradeOrder.sell} worth) of ${oTradeOrder.buy} by selling ${oTradeOrder.sell}\n`)
+    console.log(
+        `Buy ${oTradeOrder.amount} (${oTradeOrder.sell} worth) of ${
+            oTradeOrder.buy
+        } by selling ${oTradeOrder.sell}\n`
+    )
 }
