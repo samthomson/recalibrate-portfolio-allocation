@@ -14,7 +14,7 @@ export interface PortfolioItem {
     currentCryptoOffset?: number            
 }
 
-export interface TradePair {
+export interface TradeOrder{
     amount: number, // measured in 'buy' currency
     buy: string,
     sell: string

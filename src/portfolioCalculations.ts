@@ -1,6 +1,6 @@
 import { getMultipleCryptoUSDValue } from 'get-crypto-fiat-values'
 import dedent from 'ts-dedent';
-import { Portfolio, TradePair } from './types'
+import { Portfolio, TradeOrder } from './types'
 
 export const calculateCurrentPortfolioAllocation = (oPortfolio: Portfolio, runningTotal: number) => {
     Object.keys(oPortfolio).forEach(key => {
@@ -143,7 +143,7 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
         currentFiatOffset = currentFiatOffset || 0
         currentFiatOffset = currentFiatOffset > 0 ? currentFiatOffset : currentFiatOffset *= -1
 
-        let oTradePair: TradePair;
+        let oTradeOrder: TradeOrder;
 
         if (currentPercentageOffset) {
             if (currentPercentageOffset === 0) {
@@ -152,23 +152,23 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
 
                 if (currentPercentageOffset < 0) {
                     console.log('currency is negatively offset; BUY')
-                    oTradePair = {
+                    oTradeOrder = {
                         amount: currentPercentageOffset,
                         buy: 'stablecoin',
                         sell: currency
                     }
-                    displayTradePair(oTradePair)
+                    displayTradeOrder(oTradeOrder)
                 }
 
                 if (currentPercentageOffset > 0) {
                     console.log('currency is positively offset; SELL')
 
-                    oTradePair = {
+                    oTradeOrder = {
                         amount: currentPercentageOffset,
                         buy: currency,
                         sell: 'stablecoin'
                     }
-                    displayTradePair(oTradePair)
+                    displayTradeOrder(oTradeOrder)
                 }
 
                 
@@ -180,6 +180,6 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
     })
 }
 
-const displayTradePair = (oTradePair: TradePair) => {
-    console.log(`Buy ${oTradePair.amount} of ${oTradePair.buy} by selling $${oTradePair.sell}\n`)
+const displayTradeOrder = (oTradeOrder: TradeOrder) => {
+    console.log(`Buy ${oTradeOrder.amount} of ${oTradeOrder.buy} by selling $${oTradeOrder.sell}\n`)
 }
