@@ -148,12 +148,9 @@ export const determineTrades = (oPortfolio: Portfolio): TradeOrder[] => {
     /*
     work out what we need to sell, and what we need to buy in 
     order to rebalance to the portfolios allocation. */
-    console.log('\ndetermine trades\n')
     let aReturnTrades: TradeOrder[] = []
     Object.keys(oPortfolio).forEach(key => {
         let { currency, currentCryptoOffset } = oPortfolio[key]
-
-        console.log('\n' + currency)
 
         currentCryptoOffset = currentCryptoOffset || 0
         currentCryptoOffset =
@@ -163,17 +160,16 @@ export const determineTrades = (oPortfolio: Portfolio): TradeOrder[] => {
 
         let oTradeOrder: TradeOrder
 
-        if (currentCryptoOffset) {
-            if (currentCryptoOffset === 0) {
-                console.log(`${currency} is *already* correctly allocated`)
-            } else {
+        if (typeof currentCryptoOffset !== undefined) {
+            if (currentCryptoOffset !== 0) {
+                // isn't *already* correctly allocated
                 if (currentCryptoOffset < 0) {
                     oTradeOrder = {
                         amount: currentCryptoOffset,
                         buy: 'stablecoin',
                         sell: currency,
                     }
-                    displayTradeOrder(oTradeOrder)
+                    // displayTradeOrder(oTradeOrder)
                     aReturnTrades.push(oTradeOrder)
                 }
 
@@ -183,7 +179,7 @@ export const determineTrades = (oPortfolio: Portfolio): TradeOrder[] => {
                         buy: 'stablecoin',
                         sell: currency,
                     }
-                    displayTradeOrder(oTradeOrder)
+                    // displayTradeOrder(oTradeOrder)
                     aReturnTrades.push(oTradeOrder)
                 }
             }
