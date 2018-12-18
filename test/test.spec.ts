@@ -72,7 +72,7 @@ describe('portfolioCalculations', () => {
        const twoThirdsPercent: number = Number(((2/3)*100).toFixed(12))
        const negativeOneSixthPercent: number = Number(((1/6)*100).toFixed(12)) * -1
        const expectedBTCFIATOffset: number = Number(
-        (((twoThirdsPercent - 50) / 100) * 20000).toFixed(6)
+        (5000).toFixed(6)
        )
        const expectedETHFIATOffset: number = Number(
         ((negativeOneSixthPercent / 100) * 10000).toFixed(6)
@@ -109,12 +109,12 @@ describe('portfolioCalculations', () => {
 
 
         const sETHKey = 'ETHEREUM'
-        expect(oTestPortfolio[sETHKey].currentPercentageOffset).to.equal(negativeOneSixthPercent)
-        expect(oTestPortfolio[sETHKey].currentFiatOffset).to.equal(expectedETHFIATOffset)
+        expect(oTestPortfolio[sETHKey].currentPercentageOffset.toFixed(6)).to.equal((-50).toFixed(6))
+        expect(oTestPortfolio[sETHKey].currentFiatOffset.toFixed(6)).to.equal((-5000).toFixed(6))
 
         
         expect(recalibrationOffset).to.be.a('number')
-        expect(recalibrationOffset).to.equal(5000)
+        expect(recalibrationOffset).to.equal(10000)
     })
 
     it('updatePortfolioValues', () => {
