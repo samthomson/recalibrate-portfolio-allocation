@@ -134,37 +134,36 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
         
         let {
             currency,
-            currentFiatOffset,
-            currentPercentageOffset
+            currentCryptoOffset
         } = oPortfolio[key]
 
         console.log('\n' + currency)
 
-        currentFiatOffset = currentFiatOffset || 0
-        currentFiatOffset = currentFiatOffset > 0 ? currentFiatOffset : currentFiatOffset *= -1
+        currentCryptoOffset = currentCryptoOffset || 0
+        currentCryptoOffset = currentCryptoOffset > 0 ? currentCryptoOffset : currentCryptoOffset *= -1
 
         let oTradeOrder: TradeOrder;
 
-        if (currentPercentageOffset) {
-            if (currentPercentageOffset === 0) {
+        if (currentCryptoOffset) {
+            if (currentCryptoOffset === 0) {
                 console.log(`${currency} is *already* correctly allocated`)
             }else{
 
-                if (currentPercentageOffset < 0) {
+                if (currentCryptoOffset < 0) {
                     console.log('currency is negatively offset; BUY')
                     oTradeOrder = {
-                        amount: currentPercentageOffset,
+                        amount: currentCryptoOffset,
                         buy: 'stablecoin',
                         sell: currency
                     }
                     displayTradeOrder(oTradeOrder)
                 }
 
-                if (currentPercentageOffset > 0) {
+                if (currentCryptoOffset > 0) {
                     console.log('currency is positively offset; SELL')
 
                     oTradeOrder = {
-                        amount: currentPercentageOffset,
+                        amount: currentCryptoOffset,
                         buy: 'stablecoin',
                         sell: currency
                     }
