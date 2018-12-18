@@ -41,9 +41,7 @@ const calculateRequiredTradesToRebalance = async (portfolio: Portfolio) => {
     
     // it then looks at the intended spread and calculates the offset for each stock in fiat (usd)
     runningRecalibrationOffset = calculatePortfolioOffsets(oPortfolio)
-    
-    // todo: then for each stock it determines the trade buy X proxy coin (for the positive offsets) or sell X proxy coin for currencies (for the negatives)
-    // TODO //
+
 
     // portfolio allocation
     consoleLogSummaries(oPortfolio)
@@ -60,6 +58,7 @@ const calculateRequiredTradesToRebalance = async (portfolio: Portfolio) => {
     `))
 
 
+    // then for each asset/coin-holding it determines the trade buy X proxy coin (for the positive offsets) or sell X proxy coin for currencies (for the negatives)
     determineTrades(oPortfolio)
 
 }
