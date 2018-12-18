@@ -5,10 +5,10 @@ export interface Portfolio {
 export interface PortfolioItem { 
     currency: string,
     holding: number,
-    percentage: number,
-    marketPrice?: number,
+    percentage: number, // intended allocation
+    marketPrice?: number, // the price of one unit, in USD
     netValue?: number,
-    currentAllocation?: number,
+    currentAllocation?: number, // percentage of the portfolio this asset occupies
     currentFiatOffset?: number,
     currentPercentageOffset?: number            
 }

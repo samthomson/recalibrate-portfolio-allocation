@@ -62,9 +62,16 @@ export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
     */
     let runningRecalibrationOffset: number = 0
     Object.keys(oPortfolio).forEach(key => {
-        const currentAllocation: number = oPortfolio[key].currentAllocation || 0
-        const intendedAllocation: number = oPortfolio[key].percentage
-        const marketPrice: number = oPortfolio[key].marketPrice || 0
+
+        let { 
+            currentAllocation,
+            marketPrice,
+            percentage
+        } = oPortfolio[key]
+
+        currentAllocation = currentAllocation || 0
+        const intendedAllocation: number = percentage
+        marketPrice = marketPrice || 0
 
         const currentPercentageOffset: number = currentAllocation - intendedAllocation
         const currentFiatOffset: number = (currentPercentageOffset * marketPrice) / 100

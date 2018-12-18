@@ -5,14 +5,14 @@ const mockery = require('mockery')
 const mockGetCryptoValues = {
     getMultipleCryptoUSDValue: function (saCurrencies) {
         return {
-            'bitcoin': { usdValue: 3022.223 },
-            'ethereum': { usdValue: 87.677 },
-            'dogecoin': { usdValue: .01677 },
-            'litecoin': { usdValue: 22.457 }
+            'bitcoin': { usdValue: 20000 },
+            'ethereum': { usdValue: 1000 },
+            'dogecoin': { usdValue: .01 },
+            'litecoin': { usdValue: 300 }
         }
     }
 };
-mockery.enable({ useCleanCache: true });
+mockery.enable({ useCleanCache: true, warnOnReplace: false, warnOnUnregistered: false });
 mockery.registerMock('get-crypto-fiat-values', mockGetCryptoValues);
 
 
@@ -57,17 +57,45 @@ describe('portfolioCalculations', () => {
     })
 
     it('calculatePortfolioOffsets', () => {
+        // const oTestPortfolio: Portfolio = {
+        //     BITCOIN: { "currency": BITCOIN, "percentage": 50, "holding": 0.4, "currentAllocation": 40, "marketPrice": 12000 },
+        //     ETHEREUM: { "currency": ETHEREUM, "percentage": 50, "holding": 2.3 }
+        // }
+
+        /*
+        1x $20k bitcoin, and 10x $1k ether.
+        each should be 50%.
+        actual allocation: 66.66% btc, 33.33% eth
+        intended allocationn: 50% btc, 50% eth
+        */
+
         const oTestPortfolio: Portfolio = {
-            BITCOIN: { "currency": BITCOIN, "percentage": 50, "holding": 0.4, "currentAllocation": 40, "marketPrice": 12000 },
-            ETHEREUM: { "currency": ETHEREUM, "percentage": 50, "holding": 2.3 }
+            BITCOIN: {
+                "currency": BITCOIN,
+                "percentage": 50,
+                "holding": 1,
+                "currentAllocation": (2/3),
+                "marketPrice": 20000 
+            },
+            ETHEREUM: {
+                "currency": ETHEREUM,
+                "percentage": 50,
+                "holding": 10,
+                "currentAllocation": (1/3),
+                "marketPrice": 1000 
+            }
         }
         
 
         const recalibrationOffset = calculatePortfolioOffsets(oTestPortfolio)
 
+        console.log(recalibrationOffset)
+        console.log(oTestPortfolio)
+
         const sKey = 'BITCOIN'
 
         expect(oTestPortfolio[sKey].currentPercentageOffset).to.be.a('number')
+        expect(oTestPortfolio[sKey].currentPercentageOffset).to.equal((100/6))
         expect(oTestPortfolio[sKey].currentFiatOffset).to.be.a('number')
         expect(recalibrationOffset).to.be.a('number')
 
