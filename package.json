@@ -7,17 +7,16 @@
     "fixlint": "tslint --fix src/**.*",
     "watch": "tsc --watch",
     "start": "node dist/dev.js",
-    "test": "nyc mocha -r ts-node/register test/*.ts",
-    "mocha": "mocha -r ts-node/register test/*.ts",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "test": "mocha -r ts-node/register test/**/*.spec.ts",
+    "coverage": "istanbul cover -e .ts _mocha -- --compilers ts:ts-node/register"
   },
   "repository": "git@github.com:samthomson/recalibrate-portfolio-allocation.git",
   "author": "Sam Thomson <samt@samt.st>",
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.1.2",
+    "istanbul": "1.1.0-alpha.1",
     "mocha": "^5.0.1",
-    "nyc": "^11.4.1",
     "sinon": "^4.4.2",
     "ts-node": "^5.0.0",
     "tslint-config-prettier": "^1.9.0",

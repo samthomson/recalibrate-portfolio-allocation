@@ -96,8 +96,6 @@ export const updatePortfolioCurrencyValues = async (oPortfolio: Portfolio): Prom
 
     const oPrices: any = await getMultipleCryptoUSDValue(saCurrencies)
 
-    console.log(oPrices)
-
     const aFetchCurrencyValues = Object.keys(oPortfolio).map(sCurrency => {
         // set it's market price, or -1 if the API returned null
         return updatePortfolioValues(
@@ -127,7 +125,7 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
         
         const { currency, currentPercentageOffset } = oPortfolio[key]
 
-        console.log(currency)
+        console.log('\n' + currency)
 
         if (currentPercentageOffset) {
             if (currentPercentageOffset === 0) {

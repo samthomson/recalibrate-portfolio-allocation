@@ -1,6 +1,4 @@
 node_modules
 dist
-
-# nyc test coverage
-.nyc_output
+coverage
 yarn-error.log

@@ -2,8 +2,8 @@ import { expect } from 'chai'
 
 import {
     calculateCurrentPortfolioAllocation, calculatePortfolioOffsets,
-    consoleLogSummaries, sumPortfolioNetValues, updatePortfolioCurrencyValues, updatePortfolioValues } from './../dist/portfolioCalculations'
-import { Portfolio } from './../src/types'
+    consoleLogSummaries, sumPortfolioNetValues, updatePortfolioCurrencyValues, updatePortfolioValues } from '../src/portfolioCalculations'
+import { Portfolio } from '../src/types'
 
 describe('portfolioCalculations', () => {
 
@@ -89,8 +89,8 @@ describe('portfolioCalculations', () => {
     it('sumPortfolioNetValues', async () => {
 
         const oTestPortfolio: Portfolio = {
-            BITCOIN: { "currency": 'BITCOIN', "percentage": 50, "holding": 0.4, "netValue": 4359.4532 },
-            ETHEREUM: { "currency": 'ETHEREUM', "percentage": 50, "holding": 2.3, "netValue": 1546.0492 }
+            BITCOIN: { "currency": 'bitcoin', "percentage": 50, "holding": 0.4, "netValue": 4359.4532 },
+            ETHEREUM: { "currency": 'ethereum', "percentage": 50, "holding": 2.3, "netValue": 1546.0492 }
         }
 
         await updatePortfolioCurrencyValues(oTestPortfolio)
@@ -99,8 +99,8 @@ describe('portfolioCalculations', () => {
 
 
         const oEmptyPortfolio: Portfolio = {
-            BITCOIN: { "currency": 'BITCOIN', "percentage": 50, "holding": 0, "netValue": 0 },
-            ETHEREUM: { "currency": 'ETHEREUM', "percentage": 50, "holding": 0, "netValue": 0 }
+            BITCOIN: { "currency": 'bitcoin', "percentage": 50, "holding": 0, "netValue": 0 },
+            ETHEREUM: { "currency": 'ethereum', "percentage": 50, "holding": 0, "netValue": 0 }
         }
 
         await updatePortfolioCurrencyValues(oEmptyPortfolio)

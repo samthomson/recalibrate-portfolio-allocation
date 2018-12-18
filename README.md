@@ -23,6 +23,11 @@ If the markets remained flat, no adjustment is necessary. If they move, ~50% of 
 
 ### todo
 
+- tests show errors on js, not mapped to ts
+- tests should work based on spoofed data, such that exact outcomes can be looked for. tests presently just check results are numbers..
+- offsets seems wrong, applying them doesn't rebalance portfolio
+- recalibration cost is wrong, it should sum all values as positives
 - create / output trades
+- handle non-data better. if we didn't receive market data for any currency, we can't proceed. throw an error or similar.
 - add docs/usage to readme
 - publish as a package
