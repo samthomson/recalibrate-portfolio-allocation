@@ -66,15 +66,15 @@ export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
         let { 
             currentAllocation,
             holding,
+            intendedAllocation,
             netValue,
             percentage
         } = oPortfolio[key]
 
         currentAllocation = currentAllocation || 0
-        const intendedAllocation: number = percentage
         netValue = netValue || 0
 
-        const currentPercentageOffset: number = currentAllocation - intendedAllocation
+        const currentPercentageOffset: number = 100 - (1 / (currentAllocation / intendedAllocation))
         let currentFiatOffset: number = Number(((currentPercentageOffset * netValue) / 100).toFixed(6))
         let currentCryptoOffset: number = Number(((currentPercentageOffset * holding) / 100).toFixed(6))
 

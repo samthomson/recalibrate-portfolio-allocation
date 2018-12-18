@@ -5,7 +5,7 @@ export interface Portfolio {
 export interface PortfolioItem { 
     currency: string,
     holding: number,
-    percentage: number, // intended allocation
+    intendedAllocation: number, // percent of portfolio we want this asset to occupy
     marketPrice?: number, // the price of one unit, in USD
     netValue?: number,
     currentAllocation?: number, // percentage of the portfolio this asset occupies
