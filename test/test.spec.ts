@@ -103,7 +103,7 @@ describe('portfolioCalculations', () => {
 
 
         const sKey = 'BITCOIN'
-        expect(oTestPortfolio[sKey].currentPercentageOffset).to.equal(25)
+        expect(oTestPortfolio[sKey].currentPercentageOffset.toFixed(6)).to.equal((25).toFixed(6))
         expect(oTestPortfolio[sKey].currentFiatOffset).to.equal(expectedBTCFIATOffset)
         expect(oTestPortfolio[sKey].currentCryptoOffset).to.be.a('number')
 
