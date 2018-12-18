@@ -1,12 +1,34 @@
-import { expect } from 'chai'
+
+// DEFINE MOCKS
+const mockery = require('mockery')
+
+const mockGetCryptoValues = {
+    getMultipleCryptoUSDValue: function (saCurrencies) {
+        return {
+            'bitcoin': { usdValue: 3022.223 },
+            'ethereum': { usdValue: 87.677 },
+            'dogecoin': { usdValue: .01677 },
+            'litecoin': { usdValue: 22.457 }
+        }
+    }
+};
+mockery.enable({ useCleanCache: true });
+mockery.registerMock('get-crypto-fiat-values', mockGetCryptoValues);
+
 
 const BITCOIN: string = 'bitcoin'
 const ETHEREUM: string = 'ethereum'
 const DOGECOIN: string = 'dogecoin'
 
+import { expect } from 'chai'
 import {
-    calculateCurrentPortfolioAllocation, calculatePortfolioOffsets,
-    consoleLogSummaries, sumPortfolioNetValues, updatePortfolioCurrencyValues, updatePortfolioValues } from '../src/portfolioCalculations'
+    calculateCurrentPortfolioAllocation,
+    calculatePortfolioOffsets,
+    consoleLogSummaries,
+    sumPortfolioNetValues,
+    updatePortfolioCurrencyValues,
+    updatePortfolioValues
+} from '../src/portfolioCalculations'
 import { Portfolio } from '../src/types'
 
 describe('portfolioCalculations', () => {
