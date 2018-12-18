@@ -65,21 +65,21 @@ export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
 
         let { 
             currentAllocation,
-            marketPrice,
+            netValue,
             percentage
         } = oPortfolio[key]
 
         currentAllocation = currentAllocation || 0
         const intendedAllocation: number = percentage
-        marketPrice = marketPrice || 0
+        netValue = netValue || 0
 
         const currentPercentageOffset: number = currentAllocation - intendedAllocation
-        const currentFiatOffset: number = (currentPercentageOffset * marketPrice) / 100
+        let currentFiatOffset: number = Number(((currentPercentageOffset * netValue) / 100).toFixed(6))
 
-        runningRecalibrationOffset += currentFiatOffset
-        
         oPortfolio[key].currentPercentageOffset = currentPercentageOffset
         oPortfolio[key].currentFiatOffset = currentFiatOffset
+
+        runningRecalibrationOffset += currentFiatOffset > 0 ? currentFiatOffset : currentFiatOffset *= -1
     })
     return runningRecalibrationOffset
 }

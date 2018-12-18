@@ -69,20 +69,29 @@ describe('portfolioCalculations', () => {
         intended allocationn: 50% btc, 50% eth
         */
 
+       const twoThirdsPercent: number = Number(((2/3)*100).toFixed(12))
+       const negativeOneSixthPercent: number = Number(((1/6)*100).toFixed(12)) * -1
+       const expectedBTCFIATOffset: number = Number(
+        (((twoThirdsPercent - 50) / 100) * 20000).toFixed(6)
+       )
+       const expectedETHFIATOffset: number = Number(
+        ((negativeOneSixthPercent / 100) * 10000).toFixed(6)
+       )
+
         const oTestPortfolio: Portfolio = {
             BITCOIN: {
                 "currency": BITCOIN,
                 "percentage": 50,
                 "holding": 1,
-                "currentAllocation": (2/3),
-                "marketPrice": 20000 
+                "currentAllocation": Number(((2/3)*100).toFixed(12)), // 66.66666%
+                "netValue": 20000 
             },
             ETHEREUM: {
                 "currency": ETHEREUM,
                 "percentage": 50,
                 "holding": 10,
-                "currentAllocation": (1/3),
-                "marketPrice": 1000 
+                "currentAllocation": Number(((1/3) * 100).toFixed(12)), // 33.3333%
+                "netValue": 10000
             }
         }
         
@@ -92,18 +101,19 @@ describe('portfolioCalculations', () => {
         console.log(recalibrationOffset)
         console.log(oTestPortfolio)
 
+
         const sKey = 'BITCOIN'
+        expect(oTestPortfolio[sKey].currentPercentageOffset).to.equal(twoThirdsPercent - 50)
+        expect(oTestPortfolio[sKey].currentFiatOffset).to.equal(expectedBTCFIATOffset)
 
-        expect(oTestPortfolio[sKey].currentPercentageOffset).to.be.a('number')
-        expect(oTestPortfolio[sKey].currentPercentageOffset).to.equal((100/6))
-        expect(oTestPortfolio[sKey].currentFiatOffset).to.be.a('number')
+
+        const sETHKey = 'ETHEREUM'
+        expect(oTestPortfolio[sETHKey].currentPercentageOffset).to.equal(negativeOneSixthPercent)
+        expect(oTestPortfolio[sETHKey].currentFiatOffset).to.equal(expectedETHFIATOffset)
+
+        
         expect(recalibrationOffset).to.be.a('number')
-
-        const sEmptyKey = 'ETHEREUM'
-
-        expect(oTestPortfolio[sKey].currentPercentageOffset).to.be.a('number')
-        expect(oTestPortfolio[sKey].currentFiatOffset).to.be.a('number')
-        expect(recalibrationOffset).to.be.a('number')
+        expect(recalibrationOffset).to.equal(5000)
     })
 
     it('updatePortfolioValues', () => {
