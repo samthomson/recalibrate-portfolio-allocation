@@ -13,7 +13,7 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
 
         const {
             currency,
-            percentage,
+            intendedAllocation,
             holding,
             marketPrice,
             netValue,
@@ -35,7 +35,7 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
             sMessage = `
             ${key}:
             currency: ${currency}
-            percentage: ${percentage}
+            intendedAllocation: ${intendedAllocation}
             holding: ${holding}
             market-price: $${marketPrice.toFixed(2)}
             net value: $${netValue.toFixed(2)}
@@ -68,7 +68,6 @@ export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
             holding,
             intendedAllocation,
             netValue,
-            percentage
         } = oPortfolio[key]
 
         currentAllocation = currentAllocation || 0

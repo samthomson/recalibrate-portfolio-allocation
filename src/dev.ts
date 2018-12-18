@@ -22,9 +22,9 @@ const tradingFeePercentage: number = 0.25
 // let aPortfolio: string[] = [BITCOIN, ETHEREUM, LITECOIN]
 // including allocation - list of stocks each with desired percentage, eg BTC 50%, ETH 30%, LTC 20%
 const oPortfolio: Portfolio = {
-    BITCOIN: { "currency": BITCOIN, "percentage": 50, "holding": 0.5 },
-    ETHEREUM: { "currency": ETHEREUM, "percentage": 30, "holding": 4 },
-    LITECOIN: { "currency": LITECOIN, "percentage": 20, "holding": 10 }
+    BITCOIN: { "currency": BITCOIN, "intendedAllocation": 50, "holding": 0.5 },
+    ETHEREUM: { "currency": ETHEREUM, "intendedAllocation": 30, "holding": 4 },
+    LITECOIN: { "currency": LITECOIN, "intendedAllocation": 20, "holding": 10 }
 }
 
 
