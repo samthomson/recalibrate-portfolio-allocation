@@ -144,11 +144,12 @@ export const sumPortfolioNetValues = (oPortfolio: Portfolio): number => {
     return runningTotal
 }
 
-export const determineTrades = (oPortfolio: Portfolio): any => {
+export const determineTrades = (oPortfolio: Portfolio): TradeOrder[] => {
     /*
     work out what we need to sell, and what we need to buy in 
     order to rebalance to the portfolios allocation. */
     console.log('\ndetermine trades\n')
+    let aReturnTrades: TradeOrder[] = []
     Object.keys(oPortfolio).forEach(key => {
         let { currency, currentCryptoOffset } = oPortfolio[key]
 
@@ -167,30 +168,30 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
                 console.log(`${currency} is *already* correctly allocated`)
             } else {
                 if (currentCryptoOffset < 0) {
-                    console.log('currency is negatively offset; BUY')
                     oTradeOrder = {
                         amount: currentCryptoOffset,
                         buy: 'stablecoin',
                         sell: currency,
                     }
                     displayTradeOrder(oTradeOrder)
+                    aReturnTrades.push(oTradeOrder)
                 }
 
                 if (currentCryptoOffset > 0) {
-                    console.log('currency is positively offset; SELL')
-
                     oTradeOrder = {
                         amount: currentCryptoOffset,
                         buy: 'stablecoin',
                         sell: currency,
                     }
                     displayTradeOrder(oTradeOrder)
+                    aReturnTrades.push(oTradeOrder)
                 }
             }
         } else {
             console.log(`${currency} is missing data..`)
         }
     })
+    return aReturnTrades
 }
 
 const displayTradeOrder = (oTradeOrder: TradeOrder) => {

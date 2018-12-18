@@ -28,6 +28,7 @@ import {
     calculateCurrentPortfolioAllocation,
     calculatePortfolioOffsets,
     consoleLogSummaries,
+    determineTrades,
     sumPortfolioNetValues,
     updatePortfolioCurrencyValues,
     updatePortfolioValues,
@@ -232,6 +233,32 @@ describe('portfolioCalculations', () => {
         const portfolioSumNetValue = sumPortfolioNetValues(oEmptyPortfolio)
         expect(portfolioSumNetValue).to.be.a('number')
         expect(portfolioSumNetValue).to.equal(0)
+    })
+
+    it('should determineTrades', async () => {
+        const oTestPortfolio: Portfolio = {
+            BITCOIN: {
+                currency: BITCOIN,
+                intendedAllocation: 50,
+                holding: 1,
+                netValue: 3556.64,
+                currentCryptoOffset: -0.9,
+            },
+            ETHEREUM: {
+                currency: ETHEREUM,
+                intendedAllocation: 50,
+                holding: 10,
+                netValue: 95.03,
+                currentCryptoOffset: 11,
+            },
+        }
+
+        const oaTrades = await determineTrades(oTestPortfolio)
+
+        expect(oaTrades.length).to.equal(2)
+        expect(oaTrades[0].amount).to.equal(0.9)
+        expect(oaTrades[0].buy).to.equal('stablecoin')
+        expect(oaTrades[0].sell).to.equal('bitcoin')
     })
 
     it('should produce predicatable outcomes on end to end tests', async () => {
