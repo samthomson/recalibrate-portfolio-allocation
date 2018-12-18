@@ -165,8 +165,8 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
 
                     oTradeOrder = {
                         amount: currentPercentageOffset,
-                        buy: currency,
-                        sell: 'stablecoin'
+                        buy: 'stablecoin',
+                        sell: currency
                     }
                     displayTradeOrder(oTradeOrder)
                 }
@@ -181,5 +181,5 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
 }
 
 const displayTradeOrder = (oTradeOrder: TradeOrder) => {
-    console.log(`Buy ${oTradeOrder.amount} of ${oTradeOrder.buy} by selling ${oTradeOrder.sell}\n`)
+    console.log(`Buy ${oTradeOrder.amount} (${oTradeOrder.sell} worth) of ${oTradeOrder.buy} by selling ${oTradeOrder.sell}\n`)
 }
