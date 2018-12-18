@@ -35,8 +35,8 @@ describe('portfolioCalculations', () => {
 
     it('calculateCurrentPortfolioAllocation', () => {
         const oTestPortfolio: Portfolio = {
-            BITCOIN: { "currency": BITCOIN, "percentage": 50, "holding": 0.4 },
-            ETHEREUM: { "currency": ETHEREUM, "percentage": 50, "holding": 2.3}
+            BITCOIN: { "currency": BITCOIN, "intendedAllocation": 50, "holding": 0.4 },
+            ETHEREUM: { "currency": ETHEREUM, "intendedAllocation": 50, "holding": 2.3}
         }
         calculateCurrentPortfolioAllocation(oTestPortfolio, 20736)
 
@@ -47,7 +47,7 @@ describe('portfolioCalculations', () => {
     it('consoleLogSummaries', () => {
 
         const oTestPortfolio: Portfolio = {
-            BITCOIN: { "currency": BITCOIN, "percentage": 50, "holding": 0.4, "netValue": 4359.4532 }
+            BITCOIN: { "currency": BITCOIN, "intendedAllocation": 50, "holding": 0.4, "netValue": 4359.4532 }
         }
 
         
@@ -81,14 +81,14 @@ describe('portfolioCalculations', () => {
         const oTestPortfolio: Portfolio = {
             BITCOIN: {
                 "currency": BITCOIN,
-                "percentage": 50,
+                "intendedAllocation": 50,
                 "holding": 1,
                 "currentAllocation": Number(((2/3)*100).toFixed(12)), // 66.66666%
                 "netValue": 20000 
             },
             ETHEREUM: {
                 "currency": ETHEREUM,
-                "percentage": 50,
+                "intendedAllocation": 50,
                 "holding": 10,
                 "currentAllocation": Number(((1/3) * 100).toFixed(12)), // 33.3333%
                 "netValue": 10000
@@ -119,8 +119,8 @@ describe('portfolioCalculations', () => {
 
     it('updatePortfolioValues', () => {
         const oTestPortfolio: Portfolio = {
-            BITCOIN: { "currency": BITCOIN, "percentage": 50, "holding": 0.4 },
-            ETHEREUM: { "currency": ETHEREUM, "percentage": 50, "holding": 2.3 }
+            BITCOIN: { "currency": BITCOIN, "intendedAllocation": 50, "holding": 0.4 },
+            ETHEREUM: { "currency": ETHEREUM, "intendedAllocation": 50, "holding": 2.3 }
         }
         updatePortfolioValues(oTestPortfolio, 'BITCOIN', 100)
         updatePortfolioValues(oTestPortfolio, 'BITCOIN', null)
@@ -129,8 +129,8 @@ describe('portfolioCalculations', () => {
     it('updatePortfolioCurrencyValues', async () => {
 
         const oTestPortfolio: Portfolio = {
-            BITCOIN: { "currency": BITCOIN, "percentage": 50, "holding": 0.4 },
-            ETHEREUM: { "currency": ETHEREUM, "percentage": 50, "holding": 2.3 }
+            BITCOIN: { "currency": BITCOIN, "intendedAllocation": 50, "holding": 0.4 },
+            ETHEREUM: { "currency": ETHEREUM, "intendedAllocation": 50, "holding": 2.3 }
         }
 
         await updatePortfolioCurrencyValues(oTestPortfolio)
@@ -140,8 +140,8 @@ describe('portfolioCalculations', () => {
         expect(oTestPortfolio[sKey].netValue).to.be.a('number')
 
         const oNullTestPortfolio: Portfolio = {
-            DOGECOIN: { "currency": DOGECOIN, "percentage": 50, "holding": 0.4 },
-            ETHEREUM: { "currency": ETHEREUM, "percentage": 50, "holding": 2.3 }
+            DOGECOIN: { "currency": DOGECOIN, "intendedAllocation": 50, "holding": 0.4 },
+            ETHEREUM: { "currency": ETHEREUM, "intendedAllocation": 50, "holding": 2.3 }
         }
 
         await updatePortfolioCurrencyValues(oTestPortfolio)
@@ -154,8 +154,8 @@ describe('portfolioCalculations', () => {
     it('sumPortfolioNetValues', async () => {
 
         const oTestPortfolio: Portfolio = {
-            BITCOIN: { "currency": BITCOIN, "percentage": 50, "holding": 0.4, "netValue": 4359.4532 },
-            ETHEREUM: { "currency": ETHEREUM, "percentage": 50, "holding": 2.3, "netValue": 1546.0492 }
+            BITCOIN: { "currency": BITCOIN, "intendedAllocation": 50, "holding": 0.4, "netValue": 4359.4532 },
+            ETHEREUM: { "currency": ETHEREUM, "intendedAllocation": 50, "holding": 2.3, "netValue": 1546.0492 }
         }
 
         await updatePortfolioCurrencyValues(oTestPortfolio)
@@ -164,8 +164,8 @@ describe('portfolioCalculations', () => {
 
 
         const oEmptyPortfolio: Portfolio = {
-            BITCOIN: { "currency": 'bitcoin', "percentage": 50, "holding": 0, "netValue": 0 },
-            ETHEREUM: { "currency": 'ethereum', "percentage": 50, "holding": 0, "netValue": 0 }
+            BITCOIN: { "currency": 'bitcoin', "intendedAllocation": 50, "holding": 0, "netValue": 0 },
+            ETHEREUM: { "currency": 'ethereum', "intendedAllocation": 50, "holding": 0, "netValue": 0 }
         }
 
         await updatePortfolioCurrencyValues(oEmptyPortfolio)
