@@ -153,29 +153,37 @@ export const determineTrades = (oPortfolio: Portfolio): TradeOrder[] => {
         let { currency, currentCryptoOffset } = oPortfolio[key]
 
         currentCryptoOffset = currentCryptoOffset || 0
-        currentCryptoOffset =
-            currentCryptoOffset > 0
-                ? currentCryptoOffset
-                : (currentCryptoOffset *= -1)
+        /*currentCryptoOffset =
+        currentCryptoOffset > 0
+            ? currentCryptoOffset
+            : (currentCryptoOffset *= -1)*/
 
         let oTradeOrder: TradeOrder
 
         if (typeof currentCryptoOffset !== undefined) {
             if (currentCryptoOffset !== 0) {
                 // isn't *already* correctly allocated
+
+                const fPositiveTradeAmount =
+                    currentCryptoOffset > 0
+                        ? currentCryptoOffset
+                        : currentCryptoOffset * -1
+
+                // it's too low, buy more via stablecoin
                 if (currentCryptoOffset < 0) {
                     oTradeOrder = {
-                        amount: currentCryptoOffset,
-                        buy: 'stablecoin',
-                        sell: currency,
+                        amount: fPositiveTradeAmount,
+                        buy: currency,
+                        sell: 'stablecoin',
                     }
                     // displayTradeOrder(oTradeOrder)
                     aReturnTrades.push(oTradeOrder)
                 }
 
+                // it's too high, sell for stablecoins
                 if (currentCryptoOffset > 0) {
                     oTradeOrder = {
-                        amount: currentCryptoOffset,
+                        amount: fPositiveTradeAmount,
                         buy: 'stablecoin',
                         sell: currency,
                     }
@@ -196,4 +204,48 @@ const displayTradeOrder = (oTradeOrder: TradeOrder) => {
             oTradeOrder.buy
         } by selling ${oTradeOrder.sell}\n`
     )
+}
+
+export const calculateRequiredTradesToRebalance = async (
+    oPortfolio: Portfolio
+): Promise<TradeOrder[]> => {
+    let runningTotal: number = 0
+    let runningRecalibrationOffset: number = 0
+    const tradingFeePercentage: number = 0.25
+
+    // it gets the current market prices for currencies in the portfolio
+    await updatePortfolioCurrencyValues(oPortfolio)
+
+    runningTotal = sumPortfolioNetValues(oPortfolio)
+
+    console.log(`portfolio total value: $${runningTotal}\n`)
+
+    // determine portfolios current allocation
+    calculateCurrentPortfolioAllocation(oPortfolio, runningTotal)
+
+    // it then looks at the intended spread and calculates the offset for each stock in fiat (usd)
+    runningRecalibrationOffset = calculatePortfolioOffsets(oPortfolio)
+
+    // portfolio allocation
+    consoleLogSummaries(oPortfolio)
+
+    runningRecalibrationOffset *= -1
+    const recalibrationFees =
+        runningRecalibrationOffset * (tradingFeePercentage / 100)
+
+    console.log(
+        dedent(
+            `
+    
+        Recalibration cost:
+        $${runningRecalibrationOffset.toFixed(2)} worth of trades
+        costing $${recalibrationFees.toFixed(
+            2
+        )} (presuming a trading fee of ${tradingFeePercentage.toFixed(2)}%)
+        `
+        )
+    )
+
+    // then for each asset/coin-holding it determines the trade buy X proxy coin (for the positive offsets) or sell X proxy coin for currencies (for the negatives)
+    return determineTrades(oPortfolio)
 }

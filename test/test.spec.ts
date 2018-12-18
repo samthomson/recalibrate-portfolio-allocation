@@ -27,13 +27,14 @@ import { expect } from 'chai'
 import {
     calculateCurrentPortfolioAllocation,
     calculatePortfolioOffsets,
+    calculateRequiredTradesToRebalance,
     consoleLogSummaries,
     determineTrades,
     sumPortfolioNetValues,
     updatePortfolioCurrencyValues,
     updatePortfolioValues,
 } from '../src/portfolioCalculations'
-import { Portfolio } from '../src/types'
+import { Portfolio, TradeOrder } from '../src/types'
 
 describe('portfolioCalculations', () => {
     it('calculateCurrentPortfolioAllocation', () => {
@@ -288,6 +289,24 @@ describe('portfolioCalculations', () => {
         }
 
         // get trades
+        const oaTrades: TradeOrder[] = await calculateRequiredTradesToRebalance(
+            oSimplePortfolio
+        )
+        console.log(oSimplePortfolio)
+
+        expect(oaTrades.length).to.equal(3)
+
+        expect(oaTrades[0].amount).to.equal(0.075)
+        expect(oaTrades[0].buy).to.equal('stablecoin')
+        expect(oaTrades[0].sell).to.equal('bitcoin')
+
+        expect(oaTrades[1].amount).to.equal(1.1)
+        expect(oaTrades[1].buy).to.equal('ethereum')
+        expect(oaTrades[1].sell).to.equal('stablecoin')
+
+        expect(oaTrades[2].amount).to.equal(1.333333)
+        expect(oaTrades[2].buy).to.equal('litecoin')
+        expect(oaTrades[2].sell).to.equal('stablecoin')
 
         // compex portfolio
 
