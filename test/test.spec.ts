@@ -47,7 +47,17 @@ describe('portfolioCalculations', () => {
     it('consoleLogSummaries', () => {
 
         const oTestPortfolio: Portfolio = {
-            BITCOIN: { "currency": BITCOIN, "intendedAllocation": 50, "holding": 0.4, "netValue": 4359.4532 }
+            BITCOIN: {
+                "currency": BITCOIN,
+                "currentAllocation": 60,
+                "holding": 0.4,
+                "intendedAllocation": 50,
+                "currentPercentageOffset": 20,
+                "currentFiatOffset": 1600,
+                "currentCryptoOffset": .08,
+                "marketPrice": 20000,
+                "netValue": 8000
+            }
         }
 
         
@@ -97,10 +107,6 @@ describe('portfolioCalculations', () => {
         
 
         const recalibrationOffset = calculatePortfolioOffsets(oTestPortfolio)
-
-        console.log(recalibrationOffset)
-        console.log(oTestPortfolio)
-
 
         const sKey = 'BITCOIN'
         expect(oTestPortfolio[sKey].currentPercentageOffset.toFixed(6)).to.equal((25).toFixed(6))

@@ -19,7 +19,8 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
             netValue,
             currentAllocation,
             currentPercentageOffset,
-            currentFiatOffset
+            currentFiatOffset,
+            currentCryptoOffset
         } = oPortfolio[key]
 
         let sMessage: string;
@@ -29,7 +30,8 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
             netValue &&
             currentAllocation &&
             currentPercentageOffset &&
-            currentFiatOffset
+            currentFiatOffset && 
+            currentCryptoOffset
         ) {
 
             sMessage = `
@@ -42,6 +44,7 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
             current allocation: ${currentAllocation.toFixed(2)} % of portfolio
             current percentage offset: ${currentPercentageOffset.toFixed(2)}%
             current fiat (USD) offset: $${currentFiatOffset.toFixed(2)}
+            current crypto (${currency}) offset: ${currentCryptoOffset.toFixed(6)}
             
 
 
@@ -169,7 +172,6 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
                     }
                     displayTradeOrder(oTradeOrder)
                 }
-
                 
             }
         }else{
