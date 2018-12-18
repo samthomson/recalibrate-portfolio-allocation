@@ -9,6 +9,7 @@ import {
     updatePortfolioCurrencyValues
 } from './portfolioCalculations'
 import { Portfolio } from './types'
+import dedent from 'ts-dedent'
 
 const BITCOIN: string = 'bitcoin'
 const ETHEREUM: string = 'ethereum'
@@ -50,7 +51,13 @@ const calculateRequiredTradesToRebalance = async (portfolio: Portfolio) => {
     runningRecalibrationOffset *= -1
     const recalibrationFees = runningRecalibrationOffset * (tradingFeePercentage / 100)
 
-    console.log(`\n\nRecalibration cost:\n$${runningRecalibrationOffset.toFixed(2)} worth of trades\n+ costing $${recalibrationFees.toFixed(2)} (presuming a trading fee of ${tradingFeePercentage.toFixed(2)}%)`)
+    console.log(dedent(
+    `
+
+    Recalibration cost:
+    $${runningRecalibrationOffset.toFixed(2)} worth of trades
+    costing $${recalibrationFees.toFixed(2)} (presuming a trading fee of ${tradingFeePercentage.toFixed(2)}%)
+    `))
 
 
     determineTrades(oPortfolio)

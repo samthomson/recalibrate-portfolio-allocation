@@ -1,6 +1,6 @@
 import { getMultipleCryptoUSDValue } from 'get-crypto-fiat-values'
 import dedent from 'ts-dedent';
-import { Portfolio, PortfolioItem } from './types'
+import { Portfolio, TradePair } from './types'
 
 export const calculateCurrentPortfolioAllocation = (oPortfolio: Portfolio, runningTotal: number) => {
     Object.keys(oPortfolio).forEach(key => {
@@ -65,6 +65,7 @@ export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
 
         let { 
             currentAllocation,
+            holding,
             netValue,
             percentage
         } = oPortfolio[key]
@@ -75,9 +76,11 @@ export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
 
         const currentPercentageOffset: number = currentAllocation - intendedAllocation
         let currentFiatOffset: number = Number(((currentPercentageOffset * netValue) / 100).toFixed(6))
+        let currentCryptoOffset: number = Number(((currentPercentageOffset * holding) / 100).toFixed(6))
 
         oPortfolio[key].currentPercentageOffset = currentPercentageOffset
         oPortfolio[key].currentFiatOffset = currentFiatOffset
+        oPortfolio[key].currentCryptoOffset = currentCryptoOffset
 
         runningRecalibrationOffset += currentFiatOffset > 0 ? currentFiatOffset : currentFiatOffset *= -1
     })
@@ -130,25 +133,54 @@ export const determineTrades = (oPortfolio: Portfolio): any => {
     console.log('\ndetermine trades\n')
     Object.keys(oPortfolio).forEach(key => {
         
-        const { currency, currentPercentageOffset } = oPortfolio[key]
+        let {
+            currency,
+            currentFiatOffset,
+            currentPercentageOffset
+        } = oPortfolio[key]
 
         console.log('\n' + currency)
 
+        currentFiatOffset = currentFiatOffset || 0
+        currentFiatOffset = currentFiatOffset > 0 ? currentFiatOffset : currentFiatOffset *= -1
+
+        let oTradePair: TradePair;
+
         if (currentPercentageOffset) {
             if (currentPercentageOffset === 0) {
-                console.log('currency is *already* correctly allocated')
-            }
+                console.log(`${currency} is *already* correctly allocated`)
+            }else{
 
-            if (currentPercentageOffset < 0) {
-                console.log('currency is negatively offset; BUY')
-            }
+                if (currentPercentageOffset < 0) {
+                    console.log('currency is negatively offset; BUY')
+                    oTradePair = {
+                        amount: currentPercentageOffset,
+                        buy: 'stablecoin',
+                        sell: currency
+                    }
+                    displayTradePair(oTradePair)
+                }
 
-            if (currentPercentageOffset > 0) {
-                console.log('currency is positively offset; SELL')
+                if (currentPercentageOffset > 0) {
+                    console.log('currency is positively offset; SELL')
+
+                    oTradePair = {
+                        amount: currentPercentageOffset,
+                        buy: currency,
+                        sell: 'stablecoin'
+                    }
+                    displayTradePair(oTradePair)
+                }
+
+                
             }
         }else{
             console.log(`${currency} is missing data..`)
         }
 
     })
+}
+
+const displayTradePair = (oTradePair: TradePair) => {
+    console.log(`Buy ${oTradePair.amount} of ${oTradePair.buy} by selling $${oTradePair.sell}\n`)
 }

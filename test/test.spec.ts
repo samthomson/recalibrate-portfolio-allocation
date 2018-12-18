@@ -105,6 +105,7 @@ describe('portfolioCalculations', () => {
         const sKey = 'BITCOIN'
         expect(oTestPortfolio[sKey].currentPercentageOffset).to.equal(twoThirdsPercent - 50)
         expect(oTestPortfolio[sKey].currentFiatOffset).to.equal(expectedBTCFIATOffset)
+        expect(oTestPortfolio[sKey].currentCryptoOffset).to.be.a('number')
 
 
         const sETHKey = 'ETHEREUM'

@@ -10,5 +10,12 @@ export interface PortfolioItem {
     netValue?: number,
     currentAllocation?: number, // percentage of the portfolio this asset occupies
     currentFiatOffset?: number,
-    currentPercentageOffset?: number            
+    currentPercentageOffset?: number,
+    currentCryptoOffset?: number            
+}
+
+export interface TradePair {
+    amount: number, // measured in 'buy' currency
+    buy: string,
+    sell: string
 }
