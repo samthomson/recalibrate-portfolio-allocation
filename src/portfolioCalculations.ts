@@ -207,7 +207,8 @@ const displayTradeOrder = (oTradeOrder: TradeOrder) => {
 }
 
 export const calculateRequiredTradesToRebalance = async (
-    oPortfolio: Portfolio
+    oPortfolio: Portfolio,
+    bDisplayOutput: boolean = false
 ): Promise<TradeOrder[]> => {
     let runningTotal: number = 0
     let runningRecalibrationOffset: number = 0
@@ -228,7 +229,7 @@ export const calculateRequiredTradesToRebalance = async (
     const recalibrationFees =
         runningRecalibrationOffset * (tradingFeePercentage / 100)
 
-    consoleLogSummaries(oPortfolio)
+    if (bDisplayOutput) consoleLogSummaries(oPortfolio)
 
     // then for each asset/coin-holding it determines the trade buy X proxy coin (for the positive offsets) or sell X proxy coin for currencies (for the negatives)
     return determineTrades(oPortfolio)
