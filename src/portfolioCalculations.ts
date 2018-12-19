@@ -65,6 +65,18 @@ export const calculatePortfolioOffsets = (oPortfolio: Portfolio): number => {
     based on the intended allocation. Determining how high or low each
     asset is, relative to it what it should be for the current market.
     */
+    // check portofolio allocations sum to 100
+    let iRunningAllocation: number = 0
+    Object.keys(oPortfolio).forEach(key => {
+        let { intendedAllocation } = oPortfolio[key]
+        iRunningAllocation += intendedAllocation
+    })
+    if (iRunningAllocation !== 100) {
+        throw new Error(
+            'Invalid portfolio: intended allocations must sum to 100%'
+        )
+    }
+
     let runningRecalibrationOffset: number = 0
     Object.keys(oPortfolio).forEach(key => {
         let {
