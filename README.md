@@ -30,4 +30,47 @@ If the markets remained flat, no adjustment is necessary. If they move, ~50% of 
 
 ## usage
 
+[install]
+
 `yarn test` or `yarn test --grep="updatePortfolioCurrencyValues"` to run a specific test
+
+```typescript
+// define a portfolio
+const BITCOIN: string = 'bitcoin'
+const ETHEREUM: string = 'ethereum'
+const LITECOIN: string = 'litecoin'
+
+const oSimplePortfolio: Portfolio = {
+    BITCOIN: {
+        currency: BITCOIN,
+        intendedAllocation: 50,
+        holding: 0.5,
+    },
+    ETHEREUM: {
+        currency: ETHEREUM,
+        intendedAllocation: 30,
+        holding: 4,
+    },
+    LITECOIN: {
+        currency: LITECOIN,
+        intendedAllocation: 20,
+        holding: 10,
+    },
+}
+
+// get trades
+const oaTrades: TradeOrder[] = await calculateRequiredTradesToRebalance(
+    oSimplePortfolio
+)
+console.log(oaTrades)
+```
+
+Will print
+
+```typescript
+[
+    { amount: 0.154714, buy: 'stablecoin', sell: 'bitcoin' },
+    { amount: 3.546245, buy: 'ethereum', sell: 'stablecoin' },
+    { amount: 7.102432, buy: 'litecoin', sell: 'stablecoin' },
+]
+```

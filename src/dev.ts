@@ -1,12 +1,13 @@
 import {
     calculateCurrentPortfolioAllocation,
     calculatePortfolioOffsets,
+    calculateRequiredTradesToRebalance,
     consoleLogSummaries,
     determineTrades,
     sumPortfolioNetValues,
     updatePortfolioCurrencyValues,
 } from './portfolioCalculations'
-import { Portfolio } from './types'
+import { Portfolio, TradeOrder } from './types'
 import dedent from 'ts-dedent'
 
 const BITCOIN: string = 'bitcoin'
@@ -25,7 +26,9 @@ const oPortfolio: Portfolio = {
     LITECOIN: { currency: LITECOIN, intendedAllocation: 20, holding: 10 },
 }
 
-const calculateRequiredTradesToRebalance = async (portfolio: Portfolio) => {
+const go = async (portfolio: Portfolio) => {
+    /*
+    
     // it gets the current market prices for currencies in the portfolio
     await updatePortfolioCurrencyValues(oPortfolio)
 
@@ -60,7 +63,14 @@ const calculateRequiredTradesToRebalance = async (portfolio: Portfolio) => {
     )
 
     // then for each asset/coin-holding it determines the trade buy X proxy coin (for the positive offsets) or sell X proxy coin for currencies (for the negatives)
-    determineTrades(oPortfolio)
+
+    */
+    const oaTrades: TradeOrder[] = await calculateRequiredTradesToRebalance(
+        oPortfolio
+    )
+
+    console.log('TRADES')
+    console.log(oaTrades)
 }
 
-calculateRequiredTradesToRebalance(oPortfolio)
+go(oPortfolio)
