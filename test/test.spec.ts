@@ -8,6 +8,13 @@ const mockGetCryptoValues = {
             ethereum: { usdValue: 1000 },
             dogecoin: { usdValue: 0.01 },
             litecoin: { usdValue: 300 },
+            augur: { usdValue: 6.86 },
+            ripple: { usdValue: 0.365933 },
+            iota: { usdValue: 0.29615 },
+            monero: { usdValue: 48.36 },
+            basicattentiontoken: { usdValue: 0.144346 },
+            zcash: { usdValue: 60.23 },
+            lisk: { usdValue: 1.37 },
         }
     },
 }
@@ -271,7 +278,7 @@ describe('portfolioCalculations', () => {
         expect(oaTrades[0].sell).to.equal('bitcoin')
     })
 
-    it('should produce predicatable outcomes on end to end tests', async () => {
+    describe('should produce predicatable outcomes on end to end tests', async () => {
         it('on a simple portfolio', async () => {
             const oSimplePortfolio: Portfolio = {
                 BITCOIN: {
@@ -312,62 +319,62 @@ describe('portfolioCalculations', () => {
         })
 
         it('on a complex portfolio', async () => {
-            const oSimplePortfolio: Portfolio = {
+            const oComplexPortfolio: Portfolio = {
                 BITCOIN: {
                     currency: BITCOIN,
-                    intendedAllocation: 50,
+                    intendedAllocation: 40,
                     holding: 0.5,
                 },
                 ETHEREUM: {
                     currency: ETHEREUM,
-                    intendedAllocation: 30,
+                    intendedAllocation: 20,
                     holding: 4,
                 },
                 LITECOIN: {
                     currency: LITECOIN,
-                    intendedAllocation: 20,
+                    intendedAllocation: 8,
                     holding: 10,
                 },
                 RIPPLE: {
                     currency: RIPPLE,
-                    intendedAllocation: 20,
+                    intendedAllocation: 8,
                     holding: 10,
                 },
                 IOTA: {
                     currency: IOTA,
-                    intendedAllocation: 20,
+                    intendedAllocation: 4,
                     holding: 10,
                 },
                 MONERO: {
                     currency: MONERO,
-                    intendedAllocation: 20,
+                    intendedAllocation: 4,
                     holding: 10,
                 },
                 ZCASH: {
                     currency: ZCASH,
-                    intendedAllocation: 20,
+                    intendedAllocation: 4,
                     holding: 10,
                 },
                 LISK: {
                     currency: LISK,
-                    intendedAllocation: 20,
+                    intendedAllocation: 4,
                     holding: 10,
                 },
                 BAT: {
                     currency: BAT,
-                    intendedAllocation: 20,
+                    intendedAllocation: 4,
                     holding: 10,
                 },
                 AUGUR: {
                     currency: AUGUR,
-                    intendedAllocation: 20,
+                    intendedAllocation: 4,
                     holding: 10,
                 },
             }
 
             // get trades
             const oaTrades: TradeOrder[] = await calculateRequiredTradesToRebalance(
-                oSimplePortfolio
+                oComplexPortfolio
             )
 
             expect(oaTrades.length).to.equal(10)
@@ -395,6 +402,10 @@ describe('portfolioCalculations', () => {
             expect(oaTrades[5].amount).to.equal(1.333333)
             expect(oaTrades[5].buy).to.equal('litecoin')
             expect(oaTrades[5].sell).to.equal('stablecoin')
+
+            expect(oaTrades[9].amount).to.equal(1.333333)
+            expect(oaTrades[9].buy).to.equal('litecoin')
+            expect(oaTrades[9].sell).to.equal('stablecoin')
         })
     })
 })
