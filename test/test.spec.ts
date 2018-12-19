@@ -22,6 +22,13 @@ const BITCOIN: string = 'bitcoin'
 const ETHEREUM: string = 'ethereum'
 const DOGECOIN: string = 'dogecoin'
 const LITECOIN: string = 'litecoin'
+const AUGUR: string = 'augur'
+const RIPPLE: string = 'ripple'
+const IOTA: string = 'iota'
+const MONERO: string = 'monero'
+const BAT: string = 'basicattentiontoken'
+const ZCASH: string = 'zcash'
+const LISK: string = 'lisk'
 
 import { expect } from 'chai'
 import {
@@ -77,11 +84,6 @@ describe('portfolioCalculations', () => {
     })
 
     it('calculatePortfolioOffsets', () => {
-        // const oTestPortfolio: Portfolio = {
-        //     BITCOIN: { "currency": BITCOIN, "percentage": 50, "holding": 0.4, "currentAllocation": 40, "marketPrice": 12000 },
-        //     ETHEREUM: { "currency": ETHEREUM, "percentage": 50, "holding": 2.3 }
-        // }
-
         /*
         1x $20k bitcoin, and 10x $1k ether.
         each should be 50%.
@@ -270,45 +272,129 @@ describe('portfolioCalculations', () => {
     })
 
     it('should produce predicatable outcomes on end to end tests', async () => {
-        const oSimplePortfolio: Portfolio = {
-            BITCOIN: {
-                currency: BITCOIN,
-                intendedAllocation: 50,
-                holding: 0.5,
-            },
-            ETHEREUM: {
-                currency: ETHEREUM,
-                intendedAllocation: 30,
-                holding: 4,
-            },
-            LITECOIN: {
-                currency: LITECOIN,
-                intendedAllocation: 20,
-                holding: 10,
-            },
-        }
+        it('on a simple portfolio', async () => {
+            const oSimplePortfolio: Portfolio = {
+                BITCOIN: {
+                    currency: BITCOIN,
+                    intendedAllocation: 50,
+                    holding: 0.5,
+                },
+                ETHEREUM: {
+                    currency: ETHEREUM,
+                    intendedAllocation: 30,
+                    holding: 4,
+                },
+                LITECOIN: {
+                    currency: LITECOIN,
+                    intendedAllocation: 20,
+                    holding: 10,
+                },
+            }
 
-        // get trades
-        const oaTrades: TradeOrder[] = await calculateRequiredTradesToRebalance(
-            oSimplePortfolio
-        )
+            // get trades
+            const oaTrades: TradeOrder[] = await calculateRequiredTradesToRebalance(
+                oSimplePortfolio
+            )
 
-        expect(oaTrades.length).to.equal(3)
+            expect(oaTrades.length).to.equal(3)
 
-        expect(oaTrades[0].amount).to.equal(0.075)
-        expect(oaTrades[0].buy).to.equal('stablecoin')
-        expect(oaTrades[0].sell).to.equal('bitcoin')
+            expect(oaTrades[0].amount).to.equal(0.075)
+            expect(oaTrades[0].buy).to.equal('stablecoin')
+            expect(oaTrades[0].sell).to.equal('bitcoin')
 
-        expect(oaTrades[1].amount).to.equal(1.1)
-        expect(oaTrades[1].buy).to.equal('ethereum')
-        expect(oaTrades[1].sell).to.equal('stablecoin')
+            expect(oaTrades[1].amount).to.equal(1.1)
+            expect(oaTrades[1].buy).to.equal('ethereum')
+            expect(oaTrades[1].sell).to.equal('stablecoin')
 
-        expect(oaTrades[2].amount).to.equal(1.333333)
-        expect(oaTrades[2].buy).to.equal('litecoin')
-        expect(oaTrades[2].sell).to.equal('stablecoin')
+            expect(oaTrades[2].amount).to.equal(1.333333)
+            expect(oaTrades[2].buy).to.equal('litecoin')
+            expect(oaTrades[2].sell).to.equal('stablecoin')
+        })
 
-        // compex portfolio
+        it('on a complex portfolio', async () => {
+            const oSimplePortfolio: Portfolio = {
+                BITCOIN: {
+                    currency: BITCOIN,
+                    intendedAllocation: 50,
+                    holding: 0.5,
+                },
+                ETHEREUM: {
+                    currency: ETHEREUM,
+                    intendedAllocation: 30,
+                    holding: 4,
+                },
+                LITECOIN: {
+                    currency: LITECOIN,
+                    intendedAllocation: 20,
+                    holding: 10,
+                },
+                RIPPLE: {
+                    currency: RIPPLE,
+                    intendedAllocation: 20,
+                    holding: 10,
+                },
+                IOTA: {
+                    currency: IOTA,
+                    intendedAllocation: 20,
+                    holding: 10,
+                },
+                MONERO: {
+                    currency: MONERO,
+                    intendedAllocation: 20,
+                    holding: 10,
+                },
+                ZCASH: {
+                    currency: ZCASH,
+                    intendedAllocation: 20,
+                    holding: 10,
+                },
+                LISK: {
+                    currency: LISK,
+                    intendedAllocation: 20,
+                    holding: 10,
+                },
+                BAT: {
+                    currency: BAT,
+                    intendedAllocation: 20,
+                    holding: 10,
+                },
+                AUGUR: {
+                    currency: AUGUR,
+                    intendedAllocation: 20,
+                    holding: 10,
+                },
+            }
 
-        // get trades
+            // get trades
+            const oaTrades: TradeOrder[] = await calculateRequiredTradesToRebalance(
+                oSimplePortfolio
+            )
+
+            expect(oaTrades.length).to.equal(10)
+
+            expect(oaTrades[0].amount).to.equal(0.075)
+            expect(oaTrades[0].buy).to.equal('stablecoin')
+            expect(oaTrades[0].sell).to.equal('bitcoin')
+
+            expect(oaTrades[1].amount).to.equal(1.1)
+            expect(oaTrades[1].buy).to.equal('ethereum')
+            expect(oaTrades[1].sell).to.equal('stablecoin')
+
+            expect(oaTrades[2].amount).to.equal(1.333333)
+            expect(oaTrades[2].buy).to.equal('litecoin')
+            expect(oaTrades[2].sell).to.equal('stablecoin')
+
+            expect(oaTrades[3].amount).to.equal(1.333333)
+            expect(oaTrades[3].buy).to.equal('litecoin')
+            expect(oaTrades[3].sell).to.equal('stablecoin')
+
+            expect(oaTrades[4].amount).to.equal(1.333333)
+            expect(oaTrades[4].buy).to.equal('litecoin')
+            expect(oaTrades[4].sell).to.equal('stablecoin')
+
+            expect(oaTrades[5].amount).to.equal(1.333333)
+            expect(oaTrades[5].buy).to.equal('litecoin')
+            expect(oaTrades[5].sell).to.equal('stablecoin')
+        })
     })
 })
