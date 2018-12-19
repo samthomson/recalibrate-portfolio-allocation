@@ -338,37 +338,37 @@ describe('portfolioCalculations', () => {
                 RIPPLE: {
                     currency: RIPPLE,
                     intendedAllocation: 8,
-                    holding: 10,
+                    holding: 5000,
                 },
                 IOTA: {
                     currency: IOTA,
                     intendedAllocation: 4,
-                    holding: 10,
+                    holding: 2500,
                 },
                 MONERO: {
                     currency: MONERO,
                     intendedAllocation: 4,
-                    holding: 10,
+                    holding: 15,
                 },
                 ZCASH: {
                     currency: ZCASH,
                     intendedAllocation: 4,
-                    holding: 10,
+                    holding: 18,
                 },
                 LISK: {
                     currency: LISK,
                     intendedAllocation: 4,
-                    holding: 10,
+                    holding: 600,
                 },
                 BAT: {
                     currency: BAT,
                     intendedAllocation: 4,
-                    holding: 10,
+                    holding: 5000,
                 },
                 AUGUR: {
                     currency: AUGUR,
                     intendedAllocation: 4,
-                    holding: 10,
+                    holding: 100,
                 },
             }
 
@@ -379,32 +379,32 @@ describe('portfolioCalculations', () => {
 
             expect(oaTrades.length).to.equal(10)
 
-            expect(oaTrades[0].amount).to.equal(0.075)
+            expect(oaTrades[0].amount).to.equal(0.027814)
             expect(oaTrades[0].buy).to.equal('stablecoin')
             expect(oaTrades[0].sell).to.equal('bitcoin')
 
-            expect(oaTrades[1].amount).to.equal(1.1)
+            expect(oaTrades[1].amount).to.equal(0.721862)
             expect(oaTrades[1].buy).to.equal('ethereum')
             expect(oaTrades[1].sell).to.equal('stablecoin')
 
-            expect(oaTrades[2].amount).to.equal(1.333333)
-            expect(oaTrades[2].buy).to.equal('litecoin')
-            expect(oaTrades[2].sell).to.equal('stablecoin')
+            expect(oaTrades[2].amount).to.equal(3.704184)
+            expect(oaTrades[2].buy).to.equal('stablecoin')
+            expect(oaTrades[2].sell).to.equal('litecoin')
 
-            expect(oaTrades[3].amount).to.equal(1.333333)
-            expect(oaTrades[3].buy).to.equal('litecoin')
+            expect(oaTrades[3].amount).to.equal(161.449774)
+            expect(oaTrades[3].buy).to.equal('ripple')
             expect(oaTrades[3].sell).to.equal('stablecoin')
 
-            expect(oaTrades[4].amount).to.equal(1.333333)
-            expect(oaTrades[4].buy).to.equal('litecoin')
+            expect(oaTrades[4].amount).to.equal(688.831335)
+            expect(oaTrades[4].buy).to.equal('iota')
             expect(oaTrades[4].sell).to.equal('stablecoin')
 
-            expect(oaTrades[5].amount).to.equal(1.333333)
-            expect(oaTrades[5].buy).to.equal('litecoin')
+            expect(oaTrades[5].amount).to.equal(4.527965)
+            expect(oaTrades[5].buy).to.equal('monero')
             expect(oaTrades[5].sell).to.equal('stablecoin')
 
-            expect(oaTrades[9].amount).to.equal(1.333333)
-            expect(oaTrades[9].buy).to.equal('litecoin')
+            expect(oaTrades[9].amount).to.equal(37.663615)
+            expect(oaTrades[9].buy).to.equal('augur')
             expect(oaTrades[9].sell).to.equal('stablecoin')
         })
     })

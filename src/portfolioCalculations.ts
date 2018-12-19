@@ -192,7 +192,7 @@ export const determineTrades = (oPortfolio: Portfolio): TradeOrder[] => {
                 }
             }
         } else {
-            console.log(`${currency} is missing data..`)
+            console.log(`${currency} is missing data.. can't formulate a trade`)
         }
     })
     return aReturnTrades
@@ -227,6 +227,8 @@ export const calculateRequiredTradesToRebalance = async (
     runningRecalibrationOffset *= -1
     const recalibrationFees =
         runningRecalibrationOffset * (tradingFeePercentage / 100)
+
+    consoleLogSummaries(oPortfolio)
 
     // then for each asset/coin-holding it determines the trade buy X proxy coin (for the positive offsets) or sell X proxy coin for currencies (for the negatives)
     return determineTrades(oPortfolio)
