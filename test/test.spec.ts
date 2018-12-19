@@ -144,6 +144,34 @@ describe('portfolioCalculations', () => {
 
         expect(recalibrationOffset).to.be.a('number')
         expect(recalibrationOffset).to.equal(10000)
+
+        // test with invalid portfolio
+        const oInvalidPortfolio: Portfolio = {
+            BITCOIN: {
+                currency: BITCOIN,
+                intendedAllocation: 60,
+                holding: 1,
+                currentAllocation: 50,
+                netValue: 20000,
+            },
+            ETHEREUM: {
+                currency: ETHEREUM,
+                intendedAllocation: 50,
+                holding: 10,
+                currentAllocation: 50,
+                netValue: 10000,
+            },
+        }
+        try {
+            const invalidRecalibrationOffset = calculatePortfolioOffsets(
+                oInvalidPortfolio
+            )
+            expect(true).to.equal(false)
+        } catch (err) {
+            expect(err.message).to.equal(
+                'Invalid portfolio: intended allocations must sum to 100%'
+            )
+        }
     })
 
     it('updatePortfolioValues', () => {
