@@ -50,8 +50,6 @@ export const consoleLogSummaries = (oPortfolio: Portfolio) => {
                 6
             )}
             
-
-
             `
         } else {
             sMessage = `\n${currency} is missing values.. no summary available\n`
@@ -229,7 +227,22 @@ export const calculateRequiredTradesToRebalance = async (
     const recalibrationFees =
         runningRecalibrationOffset * (tradingFeePercentage / 100)
 
-    if (bDisplayOutput) consoleLogSummaries(oPortfolio)
+    if (bDisplayOutput) {
+        consoleLogSummaries(oPortfolio)
+        console.log(
+            dedent(
+                `    
+                Recalibration cost:
+                $${runningRecalibrationOffset.toFixed(2)} worth of trades
+                costing $${recalibrationFees.toFixed(
+                    2
+                )} (presuming a trading fee of ${tradingFeePercentage.toFixed(
+                    2
+                )}%)
+                \n\n`
+            )
+        )
+    }
 
     // then for each asset/coin-holding it determines the trade buy X proxy coin (for the positive offsets) or sell X proxy coin for currencies (for the negatives)
     return determineTrades(oPortfolio)

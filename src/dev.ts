@@ -49,24 +49,14 @@ const go = async (portfolio: Portfolio) => {
     const recalibrationFees =
         runningRecalibrationOffset * (tradingFeePercentage / 100)
 
-    console.log(
-        dedent(
-            `
-
-    Recalibration cost:
-    $${runningRecalibrationOffset.toFixed(2)} worth of trades
-    costing $${recalibrationFees.toFixed(
-        2
-    )} (presuming a trading fee of ${tradingFeePercentage.toFixed(2)}%)
-    `
-        )
-    )
+    
 
     // then for each asset/coin-holding it determines the trade buy X proxy coin (for the positive offsets) or sell X proxy coin for currencies (for the negatives)
 
     */
     const oaTrades: TradeOrder[] = await calculateRequiredTradesToRebalance(
-        oPortfolio
+        oPortfolio,
+        true
     )
 
     console.log('TRADES')
