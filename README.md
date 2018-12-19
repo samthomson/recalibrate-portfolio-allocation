@@ -74,3 +74,5 @@ Will print
     { amount: 7.102432, buy: 'litecoin', sell: 'stablecoin' },
 ]
 ```
+
+You can also call `calculateRequiredTradesToRebalance` with a second boolean parameter set to `true` to display more information on the portfolio.
