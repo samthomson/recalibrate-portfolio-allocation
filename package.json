@@ -1,7 +1,9 @@
 {
-    "name": "recalibrate-spread",
+    "name": "recalibrate-cryptocurrency-portfolio-allocation",
+    "description": "determines trades necessary to redistribute a cryptocurrency portfolio so that its FIAT value aligns with a desired percentage spread.",
+    "keywords": ["fintech","cryptocurrency","crypto","portfolio","allocation"],
     "version": "1.0.0",
-    "main": "dist/dev.js",
+    "main": "dist/portfolioCalculations.js",
     "scripts": {
         "build": "tsc",
         "fixlint": "tslint --fix src/**.*",
@@ -9,29 +11,34 @@
         "watch": "tsc --watch",
         "start": "node dist/dev.js",
         "test": "mocha -r ts-node/register test/**/*.spec.ts",
-        "coverage": "istanbul cover -e .ts _mocha -- --compilers ts:ts-node/register"
+        "coverage": "istanbul cover -e .ts _mocha -- --compilers ts:ts-node/register",
+        "prepublish": "yarn run lint && yarn run test && yarn run build"
     },
+    "files": [
+        "dist"
+    ],
     "repository": "git@github.com:samthomson/recalibrate-portfolio-allocation.git",
+    "bugs": "https://github.com/samthomson/recalibrate-portfolio-allocation/issues",
     "author": "Sam Thomson <samt@samt.st>",
     "license": "MIT",
     "devDependencies": {
+        "@types/chai": "^4.1.2",
+        "@types/mocha": "^2.2.48",
+        "@types/node": "^9.4.6",
         "chai": "^4.1.2",
+        "coveralls": "^3.0.0",
         "istanbul": "1.1.0-alpha.1",
         "mocha": "^5.0.1",
         "mockery": "^2.1.0",
         "prettier": "1.15.3",
         "sinon": "^7.2.2",
         "ts-node": "^5.0.0",
+        "tslint": "^5.9.1",
         "tslint-config-prettier": "^1.9.0",
         "typescript": "^2.7.2"
     },
     "dependencies": {
-        "@types/chai": "^4.1.2",
-        "@types/mocha": "^2.2.48",
-        "@types/node": "^9.4.6",
-        "coveralls": "^3.0.0",
         "get-crypto-fiat-values": "1.1.0",
-        "ts-dedent": "^1.0.0",
-        "tslint": "^5.9.1"
+        "ts-dedent": "^1.0.0"
     }
 }

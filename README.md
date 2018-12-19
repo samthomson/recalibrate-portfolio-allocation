@@ -22,9 +22,7 @@ If the markets remained flat, no adjustment is necessary. If they move, ~50% of 
 
 ### todo
 
--   then refactor accordingly
 -   handle non-data better. if we didn't receive market data for any currency, we can't proceed. throw an error or similar.
--   publish as a package
 
 ## usage
 

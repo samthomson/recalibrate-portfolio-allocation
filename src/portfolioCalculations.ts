@@ -163,10 +163,6 @@ export const determineTrades = (oPortfolio: Portfolio): TradeOrder[] => {
         let { currency, currentCryptoOffset } = oPortfolio[key]
 
         currentCryptoOffset = currentCryptoOffset || 0
-        /*currentCryptoOffset =
-        currentCryptoOffset > 0
-            ? currentCryptoOffset
-            : (currentCryptoOffset *= -1)*/
 
         let oTradeOrder: TradeOrder
 
@@ -232,7 +228,7 @@ export const calculateRequiredTradesToRebalance = async (
     // determine portfolios current allocation
     calculateCurrentPortfolioAllocation(oPortfolio, runningTotal)
 
-    // it then looks at the intended spread and calculates the offset for each stock in fiat (usd)
+    // look at the intended spread and calculate the offset for each asset in fiat (usd)
     runningRecalibrationOffset = calculatePortfolioOffsets(oPortfolio)
 
     runningRecalibrationOffset *= -1
