@@ -268,17 +268,11 @@ export const calculateRequiredTradesToReAllocate = async (
 	// like rebalancing, but when there are different currencies in each portfolio
 
 	// are there different currencies?
-	console.log('in func')
 	let asOldCurrencies: Array<string> = Object.keys(oInitialPortfolio)
 	let asNewCurrencies: Array<string> = Object.keys(oTargetPortfolio)
-	console.log(asOldCurrencies)
-	console.log(asNewCurrencies)
 
 	//// if removed, add to new target portfolio and set allocation to zero
 	let asRemoved = asOldCurrencies.filter(x => !asNewCurrencies.includes(x))
-	let asAdded = asNewCurrencies.filter(x => !asOldCurrencies.includes(x))
-	console.log(asRemoved)
-	console.log(asAdded)
 
 	asRemoved.forEach(sCurrency => {
 		// add to new portfolio, with old holding amount, but new allocation to zero
@@ -290,11 +284,8 @@ export const calculateRequiredTradesToReAllocate = async (
 		}
 	})
 
-	console.log(oTargetPortfolio)
-
 	//// if added, do nothing
-
-
+	// let asAdded = asNewCurrencies.filter(x => !asOldCurrencies.includes(x))
 
 	return calculateRequiredTradesToRebalance(oTargetPortfolio)
 }
