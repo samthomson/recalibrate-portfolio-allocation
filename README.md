@@ -26,9 +26,9 @@ If the markets remained flat, no adjustment is necessary. If they move, ~50% of 
 
 ## usage
 
-[install]
+`yarn` to install
 
-`yarn test` or `yarn test --grep="updatePortfolioCurrencyValues"` to run a specific test
+### rebalance
 
 ```typescript
 // define a portfolio
@@ -55,10 +55,10 @@ const oSimplePortfolio: Portfolio = {
 }
 
 // get trades
-const oaTrades: TradeOrder[] = await calculateRequiredTradesToRebalance(
+const aoTrades: TradeOrder[] = await calculateRequiredTradesToRebalance(
     oSimplePortfolio
 )
-console.log(oaTrades)
+console.log(aoTrades)
 ```
 
 Will print
@@ -72,3 +72,64 @@ Will print
 ```
 
 You can also call `calculateRequiredTradesToRebalance` with a second boolean parameter set to `true` to display more information on the portfolio.
+
+### recompose
+
+You can also calculate trades necessary to change from one portfolio to another, where each portfolio has currencies the other doesn't.
+
+```typescript
+const oInitialSimplePortfolio: Portfolio = {
+	BITCOIN: {
+		currency: BITCOIN,
+		intendedAllocation: 50,
+		holding: 0.5,
+	},
+	ETHEREUM: {
+		currency: ETHEREUM,
+		intendedAllocation: 45,
+		holding: 4,
+	},
+	DOGECOIN: {
+		currency: DOGECOIN,
+		intendedAllocation: 5,
+		holding: 400,
+	},
+}
+const oTargetSimplePortfolio: Portfolio = {
+	BITCOIN: {
+		currency: BITCOIN,
+		intendedAllocation: 50,
+		holding: 0.5,
+	},
+	ETHEREUM: {
+		currency: ETHEREUM,
+		intendedAllocation: 30,
+		holding: 4,
+	},
+	LITECOIN: {
+		currency: LITECOIN,
+		intendedAllocation: 20,
+		holding: 0,
+	},
+}
+
+const aoTrades: TradeOrder[] = await calculateRequiredTradesToReAllocate(
+    oInitialSimplePortfolio,
+	oTargetSimplePortfolio
+)
+console.log(aoTrades)
+```
+
+Will print
+```typescript
+
+[
+	{ amount: 0.1499, buy: 'stablecoin', sell: 'bitcoin' },
+	{ amount: 0.2012, buy: 'ethereum', sell: 'stablecoin' },
+	{ amount: 400, buy: 'stablecoin', sell: 'dogecoin' }
+]
+```
+
+## testing
+
+`yarn test` or `yarn test --grep="updatePortfolioCurrencyValues"` to run a specific test
