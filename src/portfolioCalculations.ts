@@ -139,7 +139,6 @@ export const updatePortfolioCurrencyValues = async (
 		
 		if (oPrices[oPortfolio[sCurrency].currency] === undefined ) {
 			console.log(`\n\nerror getting usdValue for ${sCurrency} \n\n\n`)
-			console.log(oPrices)
 		}
         return updatePortfolioValues(
             oPortfolio,
@@ -183,7 +182,7 @@ export const determineTrades = (oPortfolio: Portfolio): TradeOrder[] => {
                 // it's too low, buy more via stablecoin
                 if (currentCryptoOffset < 0) {
                     oTradeOrder = {
-                        amount: fPositiveTradeAmount,
+						amount: fPositiveTradeAmount,
                         buy: currency,
                         sell: 'stablecoin',
                     }

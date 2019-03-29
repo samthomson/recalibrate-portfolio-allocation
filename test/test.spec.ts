@@ -476,9 +476,16 @@ describe('portfolioCalculations', () => {
 			}
 			
 			// should calculate trades to get from one to another
-			let mResult: any = await calculateRequiredTradesToReAllocate(oInitialSimplePortfolio, oTargetSimplePortfolio)
+			let amResult: any = await calculateRequiredTradesToReAllocate(oInitialSimplePortfolio, oTargetSimplePortfolio)
 
-			console.log(mResult)
+			let amExpectedResult = [
+				{ amount: 0.1499, buy: 'stablecoin', sell: 'bitcoin' },
+				{ amount: 0.2012, buy: 'ethereum', sell: 'stablecoin' },
+				{ amount: 400, buy: 'stablecoin', sell: 'dogecoin' }
+			]
+
+			expect(amResult).to.eql(amExpectedResult)
+
 		})
 	})
 })
