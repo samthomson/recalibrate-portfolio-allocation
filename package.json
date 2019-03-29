@@ -2,7 +2,7 @@
     "name": "recalibrate-cryptocurrency-portfolio-allocation",
     "description": "determines trades necessary to redistribute a cryptocurrency portfolio so that its FIAT value aligns with a desired percentage spread.",
     "keywords": ["fintech","cryptocurrency","crypto","portfolio","allocation"],
-    "version": "1.0.0",
+    "version": "1.1.0",
     "main": "dist/portfolioCalculations.js",
     "scripts": {
         "build": "tsc",
