@@ -135,7 +135,11 @@ export const updatePortfolioCurrencyValues = async (
     const oPrices: any = await getMultipleCryptoUSDValue(saCurrencies)
 
     const aFetchCurrencyValues = Object.keys(oPortfolio).map(sCurrency => {
-        // set it's market price, or -1 if the API returned null
+		// set it's market price, or -1 if the API returned null
+		
+		if (oPrices[oPortfolio[sCurrency].currency] === undefined ) {
+			console.log(`\n\nerror getting usdValue for ${sCurrency} \n\n\n`)
+		}
         return updatePortfolioValues(
             oPortfolio,
             sCurrency,
@@ -178,7 +182,7 @@ export const determineTrades = (oPortfolio: Portfolio): TradeOrder[] => {
                 // it's too low, buy more via stablecoin
                 if (currentCryptoOffset < 0) {
                     oTradeOrder = {
-                        amount: fPositiveTradeAmount,
+						amount: fPositiveTradeAmount,
                         buy: currency,
                         sell: 'stablecoin',
                     }
@@ -254,4 +258,33 @@ export const calculateRequiredTradesToRebalance = async (
 
     // then for each asset/coin-holding it determines the trade buy X proxy coin (for the positive offsets) or sell X proxy coin for currencies (for the negatives)
     return determineTrades(oPortfolio)
+}
+
+export const calculateRequiredTradesToReAllocate = async (
+	oInitialPortfolio: Portfolio,
+	oTargetPortfolio: Portfolio,
+) => {
+	// like rebalancing, but when there are different currencies in each portfolio
+
+	// are there different currencies?
+	let asOldCurrencies: Array<string> = Object.keys(oInitialPortfolio)
+	let asNewCurrencies: Array<string> = Object.keys(oTargetPortfolio)
+
+	//// if removed, add to new target portfolio and set allocation to zero
+	let asRemoved = asOldCurrencies.filter(x => !asNewCurrencies.includes(x))
+
+	asRemoved.forEach(sCurrency => {
+		// add to new portfolio, with old holding amount, but new allocation to zero
+		const { currency, holding } = oInitialPortfolio[sCurrency]
+		oTargetPortfolio[sCurrency] = {
+			currency,
+			intendedAllocation: 0,
+			holding
+		}
+	})
+
+	//// if added, do nothing
+	// let asAdded = asNewCurrencies.filter(x => !asOldCurrencies.includes(x))
+
+	return calculateRequiredTradesToRebalance(oTargetPortfolio)
 }

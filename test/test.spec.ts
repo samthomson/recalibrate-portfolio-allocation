@@ -40,7 +40,8 @@ const LISK: string = 'lisk'
 import { expect } from 'chai'
 import {
     calculateCurrentPortfolioAllocation,
-    calculatePortfolioOffsets,
+	calculatePortfolioOffsets,
+	calculateRequiredTradesToReAllocate,
     calculateRequiredTradesToRebalance,
     consoleLogSummaries,
     determineTrades,
@@ -435,5 +436,56 @@ describe('portfolioCalculations', () => {
             expect(oaTrades[9].buy).to.equal('augur')
             expect(oaTrades[9].sell).to.equal('stablecoin')
         })
-    })
+	})
+	
+	describe('re-allocating when currencies change', async () => {
+		it('simple portfolio', async () => {
+			const oInitialSimplePortfolio: Portfolio = {
+                BITCOIN: {
+                    currency: BITCOIN,
+                    intendedAllocation: 50,
+                    holding: 0.5,
+                },
+                ETHEREUM: {
+                    currency: ETHEREUM,
+                    intendedAllocation: 45,
+                    holding: 4,
+                },
+                DOGECOIN: {
+                    currency: DOGECOIN,
+                    intendedAllocation: 5,
+                    holding: 400,
+                },
+			}
+			const oTargetSimplePortfolio: Portfolio = {
+                BITCOIN: {
+                    currency: BITCOIN,
+                    intendedAllocation: 50,
+                    holding: 0.5,
+                },
+                ETHEREUM: {
+                    currency: ETHEREUM,
+                    intendedAllocation: 30,
+                    holding: 4,
+                },
+                LITECOIN: {
+                    currency: LITECOIN,
+                    intendedAllocation: 20,
+                    holding: 0,
+                },
+			}
+			
+			// should calculate trades to get from one to another
+			let amResult: any = await calculateRequiredTradesToReAllocate(oInitialSimplePortfolio, oTargetSimplePortfolio)
+
+			let amExpectedResult = [
+				{ amount: 0.1499, buy: 'stablecoin', sell: 'bitcoin' },
+				{ amount: 0.2012, buy: 'ethereum', sell: 'stablecoin' },
+				{ amount: 400, buy: 'stablecoin', sell: 'dogecoin' }
+			]
+
+			expect(amResult).to.eql(amExpectedResult)
+
+		})
+	})
 })
