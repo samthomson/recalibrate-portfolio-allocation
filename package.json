@@ -42,7 +42,7 @@
         "ts-dedent": "^1.0.0"
     },
     "resolutions": {
-      "axios": "^0.21.2",
+      "axios": "^0.21.4",
       "minimist": "^0.2.1"
     }
 }
